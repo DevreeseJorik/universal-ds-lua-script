@@ -16,7 +16,7 @@ To use this library, simply clone or download this repository and include the sc
  Currently, there are two scripts available, one for each emulator:
 
 - [BizGrasp](BizGrasp) (Bizhawk edition)
-- [GraspMuME](GraspMuME) (Desmume edition)
+- [GraspMume](GraspMuME) (Desmume edition)
 
 In the future, it is possible that a single script will be able to handle both emulators.
 
