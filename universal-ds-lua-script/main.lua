@@ -10,6 +10,7 @@ gameDir  = "GameRepository"
 displayDir = "Display"
 utilityDir = "Utility"
 dataDir = "Data"
+scriptDir = "Scripts"
 
 dofile("GameLoader.lua")
 dofile("DependencyLoader.lua")
