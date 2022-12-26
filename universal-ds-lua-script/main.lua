@@ -1,10 +1,12 @@
 -- Lua script made by RETIRE
 
--- if the emu lags when extending screen size do the following:
+-- if you are using BizHawk and notice heavy framedrops when extending screen size do the following:
 -- go to display options
 -- user prescale: 1x
 -- scaling filter: None
 -- Final filter: None
+
+-- if frame drops persist, it may be due to the drawRectangle function, I use it to draw tiles
 
 gameDir  = "GameRepository"
 displayDir = "Display"
