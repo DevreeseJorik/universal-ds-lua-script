@@ -20,8 +20,8 @@ For DeSmuME this can be done through:
 
 For Bizhawk this can be done through:
  Tools > Lua Console > Script > Open Script 
-or 
- Tools > Lua Console > Open Script (folder icon)
+ or 
+  Tools > Lua Console > Open Script (folder icon)
 
 Simply copy the path to the main script to run it.
 
