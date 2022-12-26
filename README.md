@@ -19,7 +19,7 @@ For DeSmuME this can be done through:
  Tools > Lua Scripting > New Lua Script Window ...
 
 For Bizhawk this can be done through:
- Tools > Lua Console > Script > Open Script 
+ Tools > Lua Console > Script > Open Script
  or 
   Tools > Lua Console > Open Script (folder icon)
 
