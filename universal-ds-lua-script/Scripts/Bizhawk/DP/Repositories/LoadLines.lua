@@ -33,24 +33,26 @@ function LoadLines:toggleGridLines()
 end
 
 function LoadLines:displayLoadLines()
-    relativePosX = 16 - PlayerData.NPCstruct.x_cam_16%32 - bit.rshift(PlayerData.NPCstruct.x_cam_16,15) -- -1 if player's X pos is 0x8000 or higher
-    relativePosY = 16 - PlayerData.NPCstruct.z_cam_16%32 - bit.rshift(PlayerData.NPCstruct.z_cam_16,15) -- -1 if player's Z pos is 0x8000 or higher
-    Display:drawLineCentered(relativePosX*16-8,0,0,Display.height,self.loadLineColor,1,0)
-    Display:drawLineCentered(0,relativePosY*13-8,Display.width,0,self.loadLineColor,0,1,1,0)
+    local relativePosX = 16 - PlayerData.NPCstruct.x_cam_16%32 - bit.rshift(PlayerData.NPCstruct.x_cam_16,15) -- -1 if player's X pos is 0x8000 or higher
+    local relativePosY = 16 - PlayerData.NPCstruct.z_cam_16%32 - bit.rshift(PlayerData.NPCstruct.z_cam_16,15) -- -1 if player's Z pos is 0x8000 or higher
+    local x = relativePosX*16-8
+    local y = relativePosY*13-8
+    Display:drawLineCenteredIfWithinBounds(relativePosX*16-8,0,0,Display.height,self.loadLineColor,1,0)
+    Display:drawLineCenteredIfWithinBounds(0,relativePosY*13-8,Display.width,0,self.loadLineColor,0,1,1,0)
 end 
 
 function LoadLines:displayMapLines()
-    relativePosX = 16 - (PlayerData.NPCstruct.x_phys_32-16)%32 - bit.rshift(PlayerData.NPCstruct.x_phys_32,15) -- -1 if player's X pos is 0x8000 or higher
-    relativePosY = 16 - (PlayerData.NPCstruct.z_phys_32-16)%32 - bit.rshift(PlayerData.NPCstruct.z_phys_32,15) -- -1 if player's Z pos is 0x8000 or higher
-    Display:drawLineCentered(relativePosX*16-8,0,0,Display.height,self.mapLineColor,1,0)
-    Display:drawLineCentered(0,relativePosY*13-8,Display.width,0,self.mapLineColor,0,1,1,0)
+    local relativePosX = 16 - (PlayerData.NPCstruct.x_phys_32-16)%32 - bit.rshift(PlayerData.NPCstruct.x_phys_32,15) -- -1 if player's X pos is 0x8000 or higher
+    local relativePosY = 16 - (PlayerData.NPCstruct.z_phys_32-16)%32 - bit.rshift(PlayerData.NPCstruct.z_phys_32,15) -- -1 if player's Z pos is 0x8000 or higher
+    Display:drawLineCenteredIfWithinBounds(relativePosX*16-8,0,0,Display.height,self.mapLineColor,1,0)
+    Display:drawLineCenteredIfWithinBounds(0,relativePosY*13-8,Display.width,0,self.mapLineColor,0,1,1,0)
 end 
 
 function LoadLines:displayChunkLines()
-    relativePosX = 16 - (PlayerData.NPCstruct.x_cam_16-16)%32 - bit.rshift(PlayerData.NPCstruct.x_cam_16,15) -- -1 if player's X pos is 0x8000 or higher
-    relativePosY = 16 - (PlayerData.NPCstruct.z_cam_16-16)%32 - bit.rshift(PlayerData.NPCstruct.z_cam_16,15) -- -1 if player's Z pos is 0x8000 or higher
-    Display:drawLineCentered(relativePosX*16-8,0,0,Display.height,self.chunkLineColor,1,0)
-    Display:drawLineCentered(0,relativePosY*13-8,Display.width,0,self.chunkLineColor,0,1,1,0)
+    local relativePosX = 16 - (PlayerData.NPCstruct.x_cam_16-16)%32 - bit.rshift(PlayerData.NPCstruct.x_cam_16,15) -- -1 if player's X pos is 0x8000 or higher
+    local relativePosY = 16 - (PlayerData.NPCstruct.z_cam_16-16)%32 - bit.rshift(PlayerData.NPCstruct.z_cam_16,15) -- -1 if player's Z pos is 0x8000 or higher
+    Display:drawLineCenteredIfWithinBounds(relativePosX*16-8,0,0,Display.height,self.chunkLineColor,1,0)
+    Display:drawLineCenteredIfWithinBounds(0,relativePosY*13-8,Display.width,0,self.chunkLineColor,0,1,1,0)
 end 
 
 function LoadLines:displayGridLines()
