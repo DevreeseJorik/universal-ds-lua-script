@@ -1,6 +1,7 @@
 Chunks = {
-    showChunks = true;
-    chunks = {}
+    showChunks = true,
+    chunks = {},
+    chunksLoaded = false,
 }
 
 function Chunks:new (o)
@@ -11,16 +12,19 @@ function Chunks:new (o)
 end
 
 function Chunks:displayChunks()
-    local mostCommonTileColor = nil
     for i = 0, 3 do
         self:loadChunk(i)
-        self:displayChunk(i,self:getMostCommonTileColor(i))
+        if self.chunksLoaded then
+            self:displayChunk(i,self:getMostCommonTileColor(i))
+        end
     end
 end
 
 function Chunks:loadChunk(chunkId)
     local addr = ChunkData.startChunks[chunkId+1]
+    if addr == 0 then self.chunksLoaded = false return end
     self.chunks[chunkId] = Memory.read_bytes_as_array(addr,2048)
+    self.chunksLoaded = true
 end
 
 function Chunks:getTileColorCount(chunkId)
@@ -30,7 +34,9 @@ function Chunks:getTileColorCount(chunkId)
         tileId = self.chunks[chunkId][i*2+1]
         collision = self.chunks[chunkId][i*2+2]
         tileColor = self:getTileColor(tileId,collision)
-        if tileColorCounts[tileColor] == nil then tileColorCounts[tileColor] = 0 end
+        if tileColorCounts[tileColor] == nil then 
+            tileColorCounts[tileColor] = 0 
+        end
         tileColorCounts[tileColor] = tileColorCounts[tileColor] + 1
     end
     return tileColorCounts
@@ -75,7 +81,10 @@ function Chunks:getTileColor(tileId,collision)
 		if collision > 0x7F then return 0xFFCCCCCC end
         return 0xFF000000
 	end 
-	return ChunkData.tileIds[tileId]
+    local tileColor = ChunkData.tileIds[tileId]
+    if tileColor then return tileColor end
+	if collision > 0x7F then return 0xFFCCCCCC end
+    return 0xFF000000
 end
 
 function Chunks:toggleChunks()
