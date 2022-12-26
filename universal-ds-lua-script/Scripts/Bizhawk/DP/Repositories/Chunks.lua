@@ -28,58 +28,6 @@ function Chunks:loadChunk(chunkId)
     self.chunksLoaded = true
 end
 
--- this is the old way of displaying chunks, with minor optimizations
-
--- function Chunks:getTileColorCount(chunkId)
---     local chunk = self.chunks[chunkId]
---     local tileColorCounts = {}
---     for i=0,1023 do
---         tileId = self.chunks[chunkId][i*2+1]
---         collision = self.chunks[chunkId][i*2+2]
---         tileColor = self:getTileColor(tileId,collision)
---         if tileColorCounts[tileColor] == nil then 
---             tileColorCounts[tileColor] = 0 
---         end
---         tileColorCounts[tileColor] = tileColorCounts[tileColor] + 1
---     end
---     return tileColorCounts
--- end
-
--- function Chunks:getMostCommonTileColor(chunkId)
---     local tileColorCounts = self:getTileColorCount(chunkId)
---     local mostCommonTileColor = nil
---     local mostCommonTileColorCount = 0
---     for tileColor,count in pairs(tileColorCounts) do
---         if count > mostCommonTileColorCount then
---             mostCommonTileColor = tileColor
---             mostCommonTileColorCount = count
---         end
---     end
---     return mostCommonTileColor
--- end
-
--- function Chunks:displayChunk(chunkId,mostCommonTileColor)
---     local w = 3
---     local h = 3
---     local paddingLeft = (32*w)*(chunkId%2)
---     local paddingTop = (32*h)*(math.floor(chunkId/2))
---     local chunk = self.chunks[chunkId]
-
---     gui.drawRectangle(Display.rightScreen + paddingLeft,paddingTop,32*w,32*h,mostCommonTileColor,mostCommonTileColor)
-
---     for i=0,1023 do
---         tileId = chunk[i*2+1]
---         collision = chunk[i*2+2]
---         tileColor = self:getTileColor(tileId,collision)
-
---         if tileColor ~= mostCommonTileColor then
---             gui.drawRectangle(Display.rightScreen + paddingLeft + i%32*w,paddingTop + math.floor(i/32)*h,w-1,h-1,tileColor,tileColor)
---         end
---     end
--- end
-
--- this is the new way of displaying chunks, with major optimizations by clustering tiles.
-
 function Chunks:clusterTiles(chunkId)
     local chunk = self.chunks[chunkId]
     local clusteredTiles = {}
