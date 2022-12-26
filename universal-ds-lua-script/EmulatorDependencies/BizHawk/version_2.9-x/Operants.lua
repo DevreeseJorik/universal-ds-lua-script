@@ -1,0 +1,1 @@
+bit = (require "migration_helpers").EmuHawk_pre_2_9_bit()
