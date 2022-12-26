@@ -4,21 +4,26 @@ Welcome to the Universal DS Lua Script repository! This library is designed to p
 
 ## Features
 
-- Automatically detect the type and language of any ROM that is loaded into the emulator
-- Run code specifically written for that ROM
+- Automatically detects Emulator, and loads specific version dependencies
+- Automatically detect the type and language of a ROM that is loaded into the emulator (on a case by case basis, needs expanding)
+- Run code specifically written for that ROM and Emulator, with a single main script
 - Link keybinds to execute functions
-- Designed for the Pokémon speedrunning and glitching scene, with example code available
-- Use the same main script for all your ROMs and save time and effort
+
+This was originally designed for the Pokémon speedrunning and glitching scene, 
+with example code available for the main series DS games of this franchise.
 
 ## Installation
 
-To use this library, simply clone or download this repository and include the script in your project. 
- Currently, there are two scripts available, one for each emulator:
+To use this library, simply clone or download this repository and load the main script in your Emulator of choice.
+For DeSmuME this can be done through:
+ Tools > Lua Scripting > New Lua Script Window ...
 
-- [BizGrasp](BizGrasp) (Bizhawk edition)
-- [GraspMuME](GraspMume) (Desmume edition)
+For Bizhawk this can be done through:
+ Tools > Lua Console > Script > Open Script
+ or 
+  Tools > Lua Console > Open Script (folder icon)
 
-In the future, it is possible that a single script will be able to handle both emulators.
+Simply copy the path to the main script to run it.
 
 ## Usage
 
