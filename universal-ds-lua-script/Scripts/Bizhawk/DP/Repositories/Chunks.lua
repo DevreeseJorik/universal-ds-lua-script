@@ -1,9 +1,9 @@
 Chunks = {
     showChunks = true,
     chunks = {},
-    chunksLoaded = false,
+    isChunkLoaded = false,
     bg = 0xFF000000,
-    showBoundingBoxes = true
+    showBoundingBoxes = false
 }
 
 function Chunks:new (o)
@@ -16,7 +16,7 @@ end
 function Chunks:displayChunks()
     for i = 0, 3 do
         self:loadChunk(i)
-        if self.chunksLoaded then
+        if self.isChunkLoaded then
             self:displayChunkClustered(i)
         end
     end
@@ -24,9 +24,9 @@ end
 
 function Chunks:loadChunk(chunkId)
     local addr = ChunkData.startChunks[chunkId+1]
-    if addr == 0 then self.chunksLoaded = false return end
+    if addr == 0 then self.isChunkLoaded = false return end
     self.chunks[chunkId] = Memory.read_bytes_as_array(addr,2048)
-    self.chunksLoaded = true
+    self.isChunkLoaded = true
 end
 
 function Chunks:clusterTiles(chunkId)
