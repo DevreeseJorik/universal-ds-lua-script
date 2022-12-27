@@ -14,12 +14,14 @@ function Chunks:new (o)
 end
 
 function Chunks:displayChunks()
+    self.drawnRects = 0
     for i = 0, 3 do
         self:loadChunk(i)
         if self.isChunkLoaded then
             self:displayChunkClustered(i)
         end
     end
+    gui.text(Display.rightScreen*2 + 10, 192*2, "drawn clustered tiles: " .. self.drawnRects)
 end
 
 function Chunks:loadChunk(chunkId)
@@ -140,6 +142,7 @@ function Chunks:displayChunkClustered(chunkId)
             end
         end
     end
+    self.drawnRects = self.drawnRects + #clusteredTiles
 end 
 
 function Chunks:getTileColor(tileId,collision)
