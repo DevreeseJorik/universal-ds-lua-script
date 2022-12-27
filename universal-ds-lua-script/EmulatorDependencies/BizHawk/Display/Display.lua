@@ -1,22 +1,22 @@
-Display = {
+Display = { -- for gui.text, multiply by 2 to get the correct position
     top = 0,
     bottom = 0,
     left = 260,
-    right = 260,
-    screenX = 260,
+    right = 192,
     topScreenY = 0,
-    bottomScreenY = 191,
-    centerX = 388,
-    centerY = 191,
     width = 256,
-    height = 191,
-    rightScreen = 260+256
+    height = 191
 }
 
 function Display:new (o)
     o = o or {}
     setmetatable(o, self)
     self.__index = self
+    self.screenX = self.left
+    self.centerX = self.screenX + self.width/2
+    self.centerY = self.topScreenY + self.height
+    self.bottomScreenY = self.topScreenY + self.height
+    self.rightScreen = self.left + self.width
     return o
 end
 

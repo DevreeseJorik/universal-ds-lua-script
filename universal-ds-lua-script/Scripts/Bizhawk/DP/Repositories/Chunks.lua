@@ -2,6 +2,7 @@ Chunks = {
     showChunks = true,
     chunks = {},
     chunksLoaded = false,
+    bg = 0xFF000000,
 }
 
 function Chunks:new (o)
@@ -15,7 +16,6 @@ function Chunks:displayChunks()
     for i = 0, 3 do
         self:loadChunk(i)
         if self.chunksLoaded then
-            --self:displayChunk(i,self:getMostCommonTileColor(i))
             self:displayChunkClustered(i)
         end
     end
@@ -35,20 +35,25 @@ function Chunks:clusterTiles(chunkId)
     local collision = nil
     local tileColor = nil
     local clusterCount = 0
+    local horizontalClusterCount = 0
+    local verticalClusterCount = 0
     for i=0,1023 do
         tileId = chunk[i*2+1]
         if tileId ~= nil then 
             collision = chunk[i*2+2]
             tileColor = self:getTileColor(tileId,collision)
             
+            horizontalClusterCount = self:getHorizontalClusterCount(chunkId,i,tileColor)
+            verticalClusterCount = self:getVerticalClusterCount(chunkId,i,tileColor)
+            
             clusteredTiles[clusterCount] = {
                 x = i%32,
                 y = math.floor(i/32),
-                horizontalClusterCount = self:getHorizontalClusterCount(chunkId,i,tileColor),
-                verticalClusterCount = self:getVerticalClusterCount(chunkId,i,tileColor),
+                horizontalClusterCount = horizontalClusterCount,
+                verticalClusterCount = verticalClusterCount,
                 color = tileColor
             }
-
+            self:removeClusteredTiles(chunkId,i,horizontalClusterCount,verticalClusterCount,tileColor)
             clusterCount = clusterCount + 1
         end 
     end
@@ -67,8 +72,8 @@ function Chunks:getHorizontalClusterCount(chunkId,i,color)
         tempCollision = chunk[i*2+j*2+2]
         tempColor = self:getTileColor(tempTileId,tempCollision)
         if tempColor ~= color then return clusterCount end
-        chunk[i*2+j*2+1] = nil
-        chunk[i*2+j*2+2] = nil
+        -- chunk[i*2+j*2+1] = nil
+        -- chunk[i*2+j*2+2] = nil
         clusterCount = clusterCount + 1
     end
     return clusterCount
@@ -86,11 +91,21 @@ function Chunks:getVerticalClusterCount(chunkId,i,color)
         tempCollision = chunk[i*2+j*64+2]
         tempColor = self:getTileColor(tempTileId,tempCollision)
         if tempColor ~= color then return clusterCount end
-        chunk[i*2+j*64+1] = nil
-        chunk[i*2+j*64+2] = nil
+        -- chunk[i*2+j*64+1] = nil
+        -- chunk[i*2+j*64+2] = nil
         clusterCount = clusterCount + 1
     end
     return clusterCount
+end
+
+function Chunks:removeClusteredTiles(chunkId,i,horizontalClusterCount,verticalClusterCount,color)
+    local chunk = self.chunks[chunkId]
+    for j = 0, verticalClusterCount-1 do
+        for k = 0, horizontalClusterCount-1 do
+            chunk[i*2+j*64+k*2+1] = nil
+            chunk[i*2+j*64+k*2+2] = nil
+        end
+    end
 end
 
 function Chunks:displayChunkClustered(chunkId)
@@ -102,10 +117,10 @@ function Chunks:displayChunkClustered(chunkId)
     for i=0,#clusteredTiles do
         local tile = clusteredTiles[i]
         if tile ~= nil then
-            gui.drawRectangle(Display.rightScreen + paddingLeft + tile.x*w,paddingTop + tile.y*h,tile.horizontalClusterCount*w-1,tile.verticalClusterCount*h-1,tile.color,tile.color)
+            --gui.drawRectangle(Display.rightScreen + paddingLeft + tile.x*w,paddingTop + tile.y*h,tile.horizontalClusterCount*w-1,tile.verticalClusterCount*h-1,tile.color,tile.color)
+            gui.drawRectangle(Display.rightScreen + paddingLeft + tile.x*w,paddingTop + tile.y*h,tile.horizontalClusterCount*w-1,tile.verticalClusterCount*h-1,"red",tile.color)
         end
     end
-       
 end 
 
 function Chunks:getTileColor(tileId,collision)

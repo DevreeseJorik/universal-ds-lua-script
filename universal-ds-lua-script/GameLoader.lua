@@ -44,12 +44,12 @@ function Game:detect()
     self.game = (gameSelection[self.id] or {game = 0}).game
     self.gameName = (gameSelection[self.id] or {gameName = ""}).gameName
     self.dir =  scriptDir .. "/" ..dl.emulator  .. (gameSelection[self.id] or {dir = ""}).dir
-    self.dataDir = dataDir .. (gameSelection[self.id] or {dir = ""}).dir
+    self.dataDir = self.dir .. "/" .. dataDir
     self.script = self.dir .. (gameSelection[self.id] or {script = ""}).script
 end 
 
 function Game:runScript()
-    if DependencyLoader.emulator == "BizHawk" then
+    if dl.emulator == "BizHawk" then
         self:runBizHawkScript()
         return
     end
@@ -78,5 +78,21 @@ function Game:runDeSmuMEScript()
 end
 
 function Game:displayGameInfo()
-    gui.text(0,20,"Rom: " .. self.romName .. " - " .. self.language .. " " .. self.gameName)
+    if dl.emulator == "BizHawk" then
+        self:displayBizHawkGameInfo()
+        return
+    end
+    self:displayDeSmuMEGameInfo()
 end 
+
+function Game:displayBizHawkGameInfo()
+    gui.text(0,0,"Emulator: " .. dl.emulator .. " " .. dl.emuVersion)
+    gui.text(Display.left*2-220,0,"Frames:" .. emu.framecount())
+    gui.text(Display.left*2-80,0,"FPS:" .. client.get_approx_framerate())
+    gui.text(0,20,"Rom: " .. self.romName .. " - " .. self.language .. " " .. self.gameName)
+end
+
+function Game:displayDeSmuMEGameInfo()
+    gui.text(0,0,"Emulator: " .. dl.emulator .. " ")
+    gui.text(0,20,"Rom: " .. self.romName .. " - " .. self.language .. " " .. self.gameName)
+end
