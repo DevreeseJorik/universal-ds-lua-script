@@ -73,8 +73,6 @@ function Chunks:getHorizontalClusterCount(chunkId,i,color)
         tempCollision = chunk[i*2+j*2+2]
         tempColor = self:getTileColor(tempTileId,tempCollision)
         if tempColor ~= color then return clusterCount end
-        -- chunk[i*2+j*2+1] = nil
-        -- chunk[i*2+j*2+2] = nil
         clusterCount = clusterCount + 1
     end
     return clusterCount
@@ -112,13 +110,14 @@ function Chunks:removeIfPartOfCluster(chunkId,i,j,k,color)
     if tempTileId ~= nil then 
         tempCollision = chunk[i*2+j*64+k*2+2]
         if self:getTileColor(tempTileId,tempCollision) ~= color then return end -- if tile color is not the same as the cluster color, return
-        if (j == 0) or (k == 0) then 
+        if (j == 0) or (k == 0) then  -- if first row or first column, remove tile, don't check for adjacent tiles
             chunk[i*2+j*64+k*2+1] = nil
             chunk[i*2+j*64+k*2+2] = nil
             return 
         end
-        if (j ~= 0) then if chunk[i*2+(j-1)*64+k*2+1] == nil then adjacentTileCount = adjacentTileCount + 1 end end -- if not first row and tile above is not nil, increment adjacentTileCount
-        if (k ~= 0) then if chunk[i*2+j*64+(k-1)*2+1] == nil then adjacentTileCount = adjacentTileCount + 1 end end -- if not first column and tile left is not nil, increment adjacentTileCount
+        -- if not first row and tile above/left is not nil, increment adjacentTileCount
+        if chunk[i*2+(j-1)*64+k*2+1] == nil then adjacentTileCount = adjacentTileCount + 1 end
+        if chunk[i*2+j*64+(k-1)*2+1] == nil then adjacentTileCount = adjacentTileCount + 1 end
         if adjacentTileCount == 0 then return end
         chunk[i*2+j*64+k*2+1] = nil
         chunk[i*2+j*64+k*2+2] = nil
