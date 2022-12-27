@@ -3,6 +3,7 @@ Chunks = {
     chunks = {},
     chunksLoaded = false,
     bg = 0xFF000000,
+    showBoundingBoxes = true
 }
 
 function Chunks:new (o)
@@ -91,21 +92,37 @@ function Chunks:getVerticalClusterCount(chunkId,i,color)
         tempCollision = chunk[i*2+j*64+2]
         tempColor = self:getTileColor(tempTileId,tempCollision)
         if tempColor ~= color then return clusterCount end
-        -- chunk[i*2+j*64+1] = nil
-        -- chunk[i*2+j*64+2] = nil
         clusterCount = clusterCount + 1
     end
     return clusterCount
 end
 
 function Chunks:removeClusteredTiles(chunkId,i,horizontalClusterCount,verticalClusterCount,color)
-    local chunk = self.chunks[chunkId]
     for j = 0, verticalClusterCount-1 do
         for k = 0, horizontalClusterCount-1 do
-            chunk[i*2+j*64+k*2+1] = nil
-            chunk[i*2+j*64+k*2+2] = nil
+            self:removeIfPartOfCluster(chunkId,i,j,k,color)
         end
     end
+end
+
+function Chunks:removeIfPartOfCluster(chunkId,i,j,k,color)
+    local chunk = self.chunks[chunkId]
+    local tempTileId = chunk[i*2+j*64+k*2+1]
+    local adjacentTileCount = 0
+    if tempTileId ~= nil then 
+        tempCollision = chunk[i*2+j*64+k*2+2]
+        if self:getTileColor(tempTileId,tempCollision) ~= color then return end -- if tile color is not the same as the cluster color, return
+        if (j == 0) or (k == 0) then 
+            chunk[i*2+j*64+k*2+1] = nil
+            chunk[i*2+j*64+k*2+2] = nil
+            return 
+        end
+        if (j ~= 0) then if chunk[i*2+(j-1)*64+k*2+1] == nil then adjacentTileCount = adjacentTileCount + 1 end end -- if not first row and tile above is not nil, increment adjacentTileCount
+        if (k ~= 0) then if chunk[i*2+j*64+(k-1)*2+1] == nil then adjacentTileCount = adjacentTileCount + 1 end end -- if not first column and tile left is not nil, increment adjacentTileCount
+        if adjacentTileCount == 0 then return end
+        chunk[i*2+j*64+k*2+1] = nil
+        chunk[i*2+j*64+k*2+2] = nil
+    end 
 end
 
 function Chunks:displayChunkClustered(chunkId)
@@ -117,8 +134,11 @@ function Chunks:displayChunkClustered(chunkId)
     for i=0,#clusteredTiles do
         local tile = clusteredTiles[i]
         if tile ~= nil then
-            --gui.drawRectangle(Display.rightScreen + paddingLeft + tile.x*w,paddingTop + tile.y*h,tile.horizontalClusterCount*w-1,tile.verticalClusterCount*h-1,tile.color,tile.color)
-            gui.drawRectangle(Display.rightScreen + paddingLeft + tile.x*w,paddingTop + tile.y*h,tile.horizontalClusterCount*w-1,tile.verticalClusterCount*h-1,"red",tile.color)
+            if self.showBoundingBoxes then 
+                gui.drawRectangle(Display.rightScreen + paddingLeft + tile.x*w,paddingTop + tile.y*h,tile.horizontalClusterCount*w-1,tile.verticalClusterCount*h-1,"red",tile.color)
+            else 
+                gui.drawRectangle(Display.rightScreen + paddingLeft + tile.x*w,paddingTop + tile.y*h,tile.horizontalClusterCount*w-1,tile.verticalClusterCount*h-1,tile.color,tile.color)
+            end
         end
     end
 end 
