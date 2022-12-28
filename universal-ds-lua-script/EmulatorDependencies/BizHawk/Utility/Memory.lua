@@ -35,6 +35,15 @@ function Memory:read_32(addr,dom,signed,bigEndian)
     return self:read_u32_le(addr,dom)
 end
 
+function Memory:read_multi(addr,size)
+    local bytesArray = self.read_bytes_as_array(addr,size)
+    local val = 0
+    for i=1, size do
+        val = val + bytesArray[i] * 256^(i-1)
+    end
+    return val
+end
+
 function Memory:readchar(ascii)
     if ascii == 0 then return " " end 
     return string.char(ascii) 
