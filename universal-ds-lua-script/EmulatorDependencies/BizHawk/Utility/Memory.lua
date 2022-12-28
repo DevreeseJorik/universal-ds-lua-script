@@ -11,6 +11,7 @@ Memory.read_s16_le = memory.read_s16_le
 Memory.read_u8 = memory.read_u8
 Memory.read_s8 = memory.read_s8
 Memory.read_bytes_as_array = memory.read_bytes_as_array
+Memory.read_bytes_as_dict = memory.read_bytes_as_dict
 
 function Memory:read_8(addr,dom,signed)
     if signed then return self:read_s8(addr,dom) end
