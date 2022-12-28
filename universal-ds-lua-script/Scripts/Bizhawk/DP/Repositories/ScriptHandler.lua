@@ -3,14 +3,20 @@ ScriptHandler = {
     menuY = 205,
     addressColor = 0xFFFFFFFF,
     commandColor = 0xFFFF00FF,
-    paramColor = 0xFF888888,
+    paramColors = {[0] = 0xFFFF8888,[1] = 0xFF88FF88},
     jumpColor = 0xFF00FF00,
     returnColor = "yellow",
     haltColor = "red",
     nextScriptCommandColors = {[true] = "red", [false] = "green"},
     curString = "",
     gridIndex = 0,
+    maxBytesPerLine = 16,
     maxLines = 16,
+    gridData = {
+        addresses = {},
+        dissasembledData = {},
+    },
+
 }
 
 function ScriptHandler:new (o)
@@ -54,47 +60,51 @@ function ScriptHandler:getParamSizes(params)
     return groupedParams
 end
 
-function ScriptHandler:incrementGridIndex_Bytes(size,addr)
+function ScriptHandler:incrementGridIndexes(size,addr)
     size = size or 2
-    if (math.floor((self.gridIndex + size )/ 16)) > (math.floor(self.gridIndex / 16)) then
-        self.gridIndex = self.gridIndex + 16 - (self.gridIndex % 16)
-    else
-        self.gridIndex = self.gridIndex + size
+    self.gridX = self.gridX + size
+    if self.gridX >= self.maxBytesPerLine then
+        self.gridX = 0
+        self.gridY = self.gridY + 1
     end
-    local x = self.gridIndex % 16
-    local y = math.floor(self.gridIndex/16)
-    if (x == 0) and (y < self.maxLines) then -- display Address
-        gui.text(self.menuX,y * 24 + self.menuY, Utility:format(addr,8), self.addressColor)
-    end 
-    return x,y
+
+    if self.gridX == 0 then 
+        -- insert address into self.gridData.addresses
+        table.insert(self.gridData.addresses,add)
+    end
+end
+
+function ScriptHandler:newLineGrid()
+    self.gridX = 0
+    self.gridY = self.gridY + 1
 end
 
 function ScriptHandler:updateGrid_Bytes(bytes, color, addr, size)
     size = size or 2
-    local x = self.gridIndex % 16
-    local y = math.floor(self.gridIndex/16)
-    local padleft = self.menuX + 90
-    local padtop = self.menuY
-    -- bitshift each byte, using the size, and display it
-    local byte = 0
-    for i = 0,size-1 do
-        byte = bit.band(bit.rshift(bytes, (size-1-i) * 8), 0xFF)
-        gui.text(padleft + x *24, padtop + y*24, Utility:format(byte,2), color)
-        x,y = self:incrementGridIndex_Bytes(1,addr+i)
+    if not self.gridData.dissasembledData[color] then
+        self.gridData.dissasembledData[color] = {}
     end
+
+    for i = 0, size - 1 do
+        if not self.gridData.dissasembledData[color][self.gridY] then
+            self.gridData.dissasembledData[color][self.gridY] = {}
+        end
+        table.insert(self.gridData.dissasembledData[color][self.gridY], {Utility:format(bytes[i],2), self.gridX})
+        self:incrementGridIndexes(1,addr+i)
+    end
+
 end
 
-function ScriptHandler:updateGrid_Str(text, color, addr,size)
-    size = size or 2
-    local x = self.gridIndex % 16
-    local y = math.floor(self.gridIndex/16)
-    local padleft = x * 24 + self.menuX + 100
-    local padtop = y * 20 + self.menuY
-    gui.text(padleft, padtop, text, color)
-    if x == 0 then -- display Address
-        gui.text(self.menuX,y * 20 + self.menuY, Utility:format(addr,8), self.addressColor)
-    end 
-    self.gridIndex = self.gridIndex + size
+function ScriptHandler:updateGrid_Str(text, color)
+    if not self.gridData.dissasembledData[color] then
+        self.gridData.dissasembledData[color] = {}
+    end
+    if not self.gridData.dissasembledData[color][self.gridY] then
+        self.gridData.dissasembledData[color][self.gridY] = {}
+    end
+    self:newLineGrid()
+    table.insert(self.gridData.dissasembledData[color][self.gridY], {text, self.gridX})
+    self:newLineGrid()
 end
 
 function ScriptHandler:isValidJump(scriptCommand,flag)
@@ -114,8 +124,21 @@ function ScriptHandler:isReturn(scriptCommand)
     return false
 end
 
+function ScriptHandler:readMultiFromBatch(addr, size)
+    -- returns a table of bytes
+    local bytes = {}
+    local value = 0
+    for i = 0, size - 1 do
+        bytes[i] = self.bytesBatch[addr + i]
+        value = value + bit.lshift(bytes[i], i * 8)
+    end
+    return bytes , value
+end
+
 function ScriptHandler:disassembleScriptData()
     -- Script Data
+    local bytes = {}
+    local value = 0
     local scriptOffset = 0
     local jumpOffset = 0
     local returnOffset = 0
@@ -127,20 +150,29 @@ function ScriptHandler:disassembleScriptData()
     local paramValues = {}
 
     -- Grid Position
-    self.gridIndex = 0
-    gui.text(self.menuX,self.menuY, Utility:format(ScriptData.startOfScriptAddr + scriptOffset + jumpOffset,8), self.addressColor)
+    self.bytesBatch = Memory.read_bytes_as_dict(ScriptData.startOfScriptAddr + scriptOffset + jumpOffset, 0x100) -- get batch of bytes, indexed by address
+    self.gridX = 0
+    self.gridY = 0
 
-    while math.floor(self.gridIndex / 16) < self.maxLines do
-        scriptCommand = Memory:read_multi(ScriptData.startOfScriptAddr + scriptOffset + jumpOffset, 2)
-        self:updateGrid_Bytes(scriptCommand, self:getScriptCommandColor(scriptCommand), ScriptData.startOfScriptAddr + scriptOffset + jumpOffset)
+    self.gridData = {
+        addresses = {},
+        dissasembledData = {},
+    }
+
+    while self.gridY < self.maxLines do
+        bytes, scriptCommand = self:readMultiFromBatch(ScriptData.startOfScriptAddr + scriptOffset + jumpOffset, 2)
+
+        self:updateGrid_Bytes(bytes, self:getScriptCommandColor(scriptCommand), ScriptData.startOfScriptAddr + scriptOffset + jumpOffset, 2)
         scriptOffset = scriptOffset + 2
+
         params = ScriptData:getParams(scriptCommand)
         paramsGrouped = self:getParamSizes(params)
         paramValues = {}
 
         for i = 1, #paramsGrouped do
-            paramValues[i] = Memory:read_multi(ScriptData.startOfScriptAddr + scriptOffset + jumpOffset, paramsGrouped[i])
-            self:updateGrid_Bytes(paramValues[i], self.paramColor, ScriptData.startOfScriptAddr + scriptOffset + jumpOffset, paramsGrouped[i])
+            bytes, value = self:readMultiFromBatch(ScriptData.startOfScriptAddr + scriptOffset + jumpOffset, paramsGrouped[i])
+            paramValues[i] = value
+            self:updateGrid_Bytes(bytes, "gray", ScriptData.startOfScriptAddr + scriptOffset + jumpOffset, paramsGrouped[i])
             scriptOffset = scriptOffset + paramsGrouped[i]
         end
 
@@ -154,15 +186,15 @@ function ScriptHandler:disassembleScriptData()
 
         if self:isReturn(scriptCommand) then 
             if (returnOffset + returnJumpOffset) == 0 then
-                self.gridIndex = self.gridIndex + 16 - (self.gridIndex % 16)
+                
                 self:updateGrid_Str("return to ? (undefined behaviour)", self.returnColor, "")
-                self.gridIndex = self.gridIndex + 16 - (self.gridIndex % 16)
+                
             else 
                 scriptOffset = returnOffset
                 jumpOffset = returnJumpOffset
-                self.gridIndex = self.gridIndex + 16 - (self.gridIndex % 16)
+                
                 self:updateGrid_Str("return to 0x" .. Utility:format(ScriptData.startOfScriptAddr + scriptOffset + jumpOffset,16), self.returnColor, "")
-                self.gridIndex = self.gridIndex + 16 - (self.gridIndex % 16)
+                
                 returnOffset = 0
                 returnJumpOffset = 0
             end
@@ -170,7 +202,42 @@ function ScriptHandler:disassembleScriptData()
     end
 end
 
+function ScriptHandler:displayDissasembledScriptData()
+    local tempString
+    -- loop through grid data, get index and color
+
+    for color, _ in pairs(self.gridData.dissasembledData) do
+        tempString = ""
+        -- loop through all lines for this color
+        for y = 0, self.maxLines do
+            local lineData = self.gridData.dissasembledData[color][y]
+            tempString = tempString .. self:createLine(lineData)
+        end
+        gui.text(self.menuX, self.menuY, tempString, color)
+    end
+end
+
+function ScriptHandler:createLine(lineData)
+    local tempLine = string.rep(" ", 3*self.maxBytesPerLine)
+    local data
+    local text
+    local x
+    if lineData then
+        -- create a string containing 3*self.maxBytesPerLine characters
+        for j = 1, #lineData do
+            data = lineData[j]
+            text = data[1]
+            x = data[2]
+            -- replace the characters in tempLine at x*3 with text
+            tempLine = tempLine:sub(1,x*3-1) .. text .. tempLine:sub(x*3+#text)
+        end    
+    end
+    return tempLine .. "\n"
+end
+
+
 function ScriptHandler:display()
+    -- this code is optimized for speed, not readability. Don't blame me for gui.text() being slow.
     if not ScriptData.showScriptData then return end
     local nextScriptCommandColor = self.nextScriptCommandColors[ScriptData.hasReturned]
     gui.text(0,60,"Next Script Command: " .. Utility:format(ScriptData.nextScriptCommandAddr,8), nextScriptCommandColor)
@@ -181,4 +248,5 @@ function ScriptHandler:display()
     gui.text(10,160,"script Data Pointer: 0x" .. Utility:format(ScriptData.scriptDataPointer,1))
     gui.text(10,180,"script Data: 0x" .. Utility:format(ScriptData.scriptDataAddr,1))
     self:disassembleScriptData()
+    self:displayDissasembledScriptData()
 end
