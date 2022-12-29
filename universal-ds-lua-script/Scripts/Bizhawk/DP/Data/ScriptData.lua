@@ -851,6 +851,7 @@ function ScriptData:updateOnEventIdChange(scriptDataPointer, scriptDataAddr)
 	local eventDataPointer = MemoryState.base + 0x2949C + MemoryState.memoryOffset
 	local eventDataAddr = Memory.read_u32_le(eventDataPointer)
 	if not Utility:isHeader(eventDataAddr) then return end
+	if Memory.read_u16_le(eventDataAddr + 0x2A) == 0 then return end
 	self:updateNPC(scriptDataPointer, scriptDataAddr)
 end
 
