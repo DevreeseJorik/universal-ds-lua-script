@@ -50,18 +50,26 @@ function Input:checkKey(btn)
 end
 
 function Input:runFunctionsOnKeypress()
-	for func,configKeys in pairs(self.keyConfig) do
+	local func  = nil
+	local configKeys = nil
+	for i,data in pairs(self.keyConfig) do
+		func = data.func
+		configKeys = data.keys
 		if self:checkKeys(configKeys) == #configKeys then
-			loadstring(func.."()")()
-		end 
+			func()
+		end
 	end
 end
 
 function Input:runFunctionsWhileKeypress()
-	for func,configKeys in pairs(self.keyConfigContinues) do
+	local func  = nil
+	local configKeys = nil
+	for i,data in pairs(self.keyConfigContinues) do
+		func = data.func
+		configKeys = data.keys
 		if self:checkKeysContinues(configKeys) == #configKeys then
-			loadstring(func.."()")()
-		end 
+			func()
+		end
 	end
 end
 
