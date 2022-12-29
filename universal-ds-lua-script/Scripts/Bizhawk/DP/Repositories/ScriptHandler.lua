@@ -13,6 +13,10 @@ ScriptHandler = {
     curString = "",
     gridIndex = 0,
     maxLines = 12,
+    incrementDelayFrames = 4,
+    delayedFrames = 0,
+    initBytesToRead = 0,
+    bytesToReadIncrementFactor = 16,
 }
 
 function ScriptHandler:new (o)
@@ -22,8 +26,25 @@ function ScriptHandler:new (o)
     return o
 end
 
-function ScriptHandler:detectExecution()
+function ScriptHandler:updateInitBytesToRead(size)
+    self.delayedFrames = self.delayedFrames + 1
+    if self.delayedFrames < self.incrementDelayFrames then
+        return
+    end
+    self.delayedFrames = 0
+    self.initBytesToRead = math.max(self.initBytesToRead + size, 0)
+end
 
+function ScriptHandler:incrementInitBytesToRead()
+    self:updateInitBytesToRead(self.bytesToReadIncrementFactor)
+end
+
+function ScriptHandler:resetInitBytesToRead()
+    self.initBytesToRead = 0
+end
+
+function ScriptHandler:decrementInitBytesToRead()
+    self:updateInitBytesToRead(-self.bytesToReadIncrementFactor)
 end
 
 function ScriptHandler:getScriptCommandColor(scriptCommand)
@@ -137,6 +158,40 @@ function ScriptHandler:disassembleScriptData()
     local params = {}
     local paramsGrouped = {}
     local paramValues = {}
+
+    self.gridIndex = 0
+
+    local bytesRead = 0
+
+    while bytesRead < self.initBytesToRead do -- and (not self.endExecution)
+        scriptCommand = Memory:read_multi(ScriptData.startOfScriptAddr + scriptOffset + jumpOffset, 2)
+        scriptOffset = scriptOffset + 2
+        bytesRead = bytesRead + 2
+        params = ScriptData:getParams(scriptCommand)
+        paramsGrouped = self:getParamSizes(params)
+        paramValues = {}
+
+        for i = 1, #paramsGrouped do
+            paramValues[i] = Memory:read_multi(ScriptData.startOfScriptAddr + scriptOffset + jumpOffset, paramsGrouped[i])
+            scriptOffset = scriptOffset + paramsGrouped[i]
+            bytesRead = bytesRead + paramsGrouped[i]
+        end
+
+        if self:isValidJump(scriptCommand, paramValues[1]) then
+            if self:isFunctionCall(scriptCommand) then
+                returnOffset = scriptOffset
+                returnJumpOffset = jumpOffset
+            end
+            jumpOffset = jumpOffset + paramValues[#paramValues]
+        end
+
+        if self:isReturn(scriptCommand) then 
+            scriptOffset = returnOffset
+            jumpOffset = returnJumpOffset
+            returnOffset = 0
+            returnJumpOffset = 0
+        end
+    end
 
     -- Grid Position
     self.gridIndex = 0
