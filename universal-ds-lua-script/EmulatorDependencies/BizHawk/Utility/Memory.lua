@@ -37,6 +37,7 @@ function Memory:read_32(addr,dom,signed,bigEndian)
 end
 
 function Memory:read_multi(addr,size)
+    addr = bit.band(addr,0xFFFFFFFF)
     local bytesArray = self.read_bytes_as_array(addr,size)
     local val = 0
     for i=1, size do
