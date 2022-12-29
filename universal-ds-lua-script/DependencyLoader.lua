@@ -41,7 +41,7 @@ end
 
 function DependencyLoader:loadBizHawkDependencies(dir)
     if self.emuVersion >= 2.9 then
-        dofile(dir .. "/version_2.9-x" .. "/Operants.lua")
+        dofile(dir .. "/version_2.9-x" .. "/MigrationHelpers.lua")
         return
     end 
 end
