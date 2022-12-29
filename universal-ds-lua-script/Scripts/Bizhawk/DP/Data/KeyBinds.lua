@@ -8,5 +8,9 @@ keyBinds = {
     },
 
     keyConfigContinues = {
+        ["ScriptHandler:incrementInitBytesToRead"] = {"Shift","Down"},
+        ["ScriptHandler:decrementInitBytesToRead"] = {"Shift","Up"},
+        ["ScriptHandler:resetInitBytesToRead"] = {"Shift","Space"}
+
     }
 }
