@@ -760,23 +760,23 @@ function ScriptData:update()
 		self:updateRETIRE(jumpTableAddrRETIRE) 
 		return 
 	else 
-		local scriptDataPointer = MemoryState.base +  0x3E950 + MemoryState.memoryOffset -- this points to script data for both RETIRE and NPC events
+		local scriptDataPointer = MemoryState.base +  0x3E950 + MemoryState.memoryOffset -- this points to script data for both RETIRE and Triggers events
 		local scriptDataAddr = Memory.read_u32_le(scriptDataPointer)
 
-		local scriptDataAddrNPC = MemoryState.base + 0x29678 + MemoryState.memoryOffset -- jump table address when using NPC event looks static, but not sure
-		if (scriptDataAddr == scriptDataAddrNPC) then
-			if self.eventType == "NPC" then 
-				self:setNextScriptCommandAddrNPC()
-				self:updateOnEventIdChange(scriptDataPointer, scriptDataAddrNPC)
+		local scriptDataAddrTriggers = MemoryState.base + 0x29678 + MemoryState.memoryOffset -- jump table address when using Triggers event looks static, but not sure
+		if (scriptDataAddr == scriptDataAddrTriggers) then
+			if self.eventType == "Triggers and NPCs" then 
+				self:setNextScriptCommandAddrTriggers()
+				self:updateOnEventIdChange(scriptDataPointer, scriptDataAddrTriggers)
 				return 
 			end
-			self:updateNPC(scriptDataPointer, scriptDataAddrNPC) 
+			self:updateTriggers(scriptDataPointer, scriptDataAddrTriggers) 
 			return 
 		end
-		if ((self.eventType == "NPC") and (Utility:isHeader(scriptDataAddrNPC))) then
+		if ((self.eventType == "Triggers and NPCs") and (Utility:isHeader(scriptDataAddrTriggers))) then
 			local hasReturned = self.hasReturned
-			self:setNextScriptCommandAddrNPC()
-			self:updateOnEventIdChange(scriptDataPointer, scriptDataAddrNPC)
+			self:setNextScriptCommandAddrTriggers()
+			self:updateOnEventIdChange(scriptDataPointer, scriptDataAddrTriggers)
 			return 
 		end
 	end
@@ -786,7 +786,7 @@ end
 
 function ScriptData:updateRETIRE(jumpTableAddr)
 	-- script data
-	self.scriptDataPointer = MemoryState.base +  0x3E950 + MemoryState.memoryOffset -- this points to script data for both RETIRE and NPC events
+	self.scriptDataPointer = MemoryState.base +  0x3E950 + MemoryState.memoryOffset -- this points to script data for both RETIRE and Triggers events
 	self.scriptDataAddr = jumpTableAddr - 0x20 -- Memory.read_u32_le(scriptDataPointer)
 	self.jumpTableAddr = jumpTableAddr
 	-- event data
@@ -814,13 +814,13 @@ function ScriptData:setNextScriptCommandAddrRETIRE()
 		end
 end
 
-function ScriptData:updateNPC(scriptDataPointer,scriptDataAddr)
+function ScriptData:updateTriggers(scriptDataPointer,scriptDataAddr)
 	-- script data
 	self.scriptDataPointer = scriptDataPointer
 	self.scriptDataAddr = scriptDataAddr
 	self.jumpTableAddr = scriptDataAddr + 0x20
 	-- event data
-	self.eventType = "NPC"
+	self.eventType = "Triggers and NPCs"
 	self.eventDataPointer = MemoryState.base + 0x2949C + MemoryState.memoryOffset
 	self.eventDataAddr = Memory.read_u32_le(self.eventDataPointer)
 	self.eventId = Memory.read_u16_le(self.eventDataAddr + 0x2A)
@@ -830,12 +830,12 @@ function ScriptData:updateNPC(scriptDataPointer,scriptDataAddr)
 	self.jumpAddr = (self.jumpTableId-1)*4 + self.jumpTableAddr
 	self.jumpAmount = Memory.read_u32_le(self.jumpAddr)
 	self.startOfScriptAddr = self.jumpAddr + self.jumpAmount + 0x4
-	-- internal address for next script command, offset only for NPC
-	self:setNextScriptCommandAddrNPC()
+	-- internal address for next script command, offset only for Triggers
+	self:setNextScriptCommandAddrTriggers()
 	self.showScriptData = true
 end
 
-function ScriptData:setNextScriptCommandAddrNPC()
+function ScriptData:setNextScriptCommandAddrTriggers()
 	-- internal address for next script command, offset only for RETIRE
 	local nextScriptCommandAddr = Memory.read_u32_le(MemoryState.base + 0x295FC + MemoryState.memoryOffset)
 	self.hasReturned = false 
@@ -852,7 +852,7 @@ function ScriptData:updateOnEventIdChange(scriptDataPointer, scriptDataAddr)
 	local eventDataAddr = Memory.read_u32_le(eventDataPointer)
 	if not Utility:isHeader(eventDataAddr) then return end
 	if Memory.read_u16_le(eventDataAddr + 0x2A) == 0 then return end
-	self:updateNPC(scriptDataPointer, scriptDataAddr)
+	self:updateTriggers(scriptDataPointer, scriptDataAddr)
 end
 
 function ScriptData:getJumpTableId()
