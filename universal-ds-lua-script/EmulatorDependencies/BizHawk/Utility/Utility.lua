@@ -11,3 +11,8 @@ function Utility:isPointer(addr,dom)
         return (addr >= 0x02000000) and (addr < 0x03000000)
     end
 end 
+
+function Utility:isHeader(addr)
+	local headerValue = Memory.read_u16_le(addr)
+	return (headerValue == 0x5544) or (headerValue == 0x4652)
+end 
