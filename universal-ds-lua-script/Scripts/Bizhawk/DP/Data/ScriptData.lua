@@ -766,9 +766,13 @@ function ScriptData:update()
 		local scriptDataAddrTriggers = MemoryState.base + 0x29678 + MemoryState.memoryOffset -- jump table address when using Triggers event looks static, but not sure
 		if (scriptDataAddr == scriptDataAddrTriggers) then
 			if self.eventType == "Triggers and NPCs" then 
+				local hasReturned = self.hasReturned
 				self:setNextScriptCommandAddrTriggers()
-				self:updateOnEventIdChange(scriptDataPointer, scriptDataAddrTriggers)
-				return 
+				if hasReturned then
+					self:updateOnEventIdChange(scriptDataPointer, scriptDataAddrTriggers)
+					return 
+				end
+				return
 			end
 			self:updateTriggers(scriptDataPointer, scriptDataAddrTriggers) 
 			return 
@@ -776,8 +780,11 @@ function ScriptData:update()
 		if ((self.eventType == "Triggers and NPCs") and (Utility:isHeader(scriptDataAddrTriggers))) then
 			local hasReturned = self.hasReturned
 			self:setNextScriptCommandAddrTriggers()
-			self:updateOnEventIdChange(scriptDataPointer, scriptDataAddrTriggers)
-			return 
+			if hasReturned then 
+				self:updateOnEventIdChange(scriptDataPointer, scriptDataAddrTriggers)
+				return 
+			end
+			return
 		end
 	end
 	self.showScriptData = false
@@ -857,8 +864,8 @@ end
 
 function ScriptData:getJumpTableId()
 	self.isSpecialEvent = false
-	if self.eventId > 0x283D then self.jumpTableId = self.eventId - 0x283D return end  
-	if self.eventId > 0x7CF then 
+	if self.eventId > 0x283C then self.jumpTableId = self.eventId - 0x283B return end  
+	if self.eventId > 0x7CF then
 		self.jumpTableId = 1
 		self.isSpecialEvent = true
 		return
