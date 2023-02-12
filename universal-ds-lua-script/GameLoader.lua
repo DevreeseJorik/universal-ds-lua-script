@@ -43,8 +43,10 @@ function Game:detect()
     self.language = languageTable[string.sub(self.romName,#self.romName,#self.romName)] -- or "Unknown" -- You may edit this, or add code to find language for BW2
     self.game = (gameSelection[self.id] or {game = 0}).game
     self.gameName = (gameSelection[self.id] or {gameName = ""}).gameName
-    self.dir =  scriptDir .. "/" ..dl.emulator  .. (gameSelection[self.id] or {dir = ""}).dir
+    self.emuDir =  scriptDir .. "/" ..dl.emulator
+    self.dir =  self.emuDir .. (gameSelection[self.id] or {dir = ""}).dir
     self.dataDir = self.dir .. "/" .. dataDir
+    self.templateDir = self.emuDir .. "/" .. templateDir
     self.script = self.dir .. (gameSelection[self.id] or {script = ""}).script
 end 
 
