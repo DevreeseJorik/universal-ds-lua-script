@@ -59,3 +59,33 @@ function Memory:readascii(addr,length)
     end
     return text
 end 
+
+function Memory:write_u8(addr, val)
+    if (addr < 0x2000000) then return end
+    mainmemory.writebyte(addr-0x2000000, val)
+end
+
+function Memory:write_u16_be(addr, val)
+    if (addr < 0x2000000) then return end
+    mainmemory.writeword(addr-0x2000000, val)
+end
+
+function Memory:write_u16_le(addr, val)
+    if (addr < 0x2000000) then return end
+    mainmemory.writeword(addr-0x2000000, val)
+end
+
+function Memory:write_u32_be(addr, val)
+    if (addr < 0x2000000) then return end
+    mainmemory.writedword(addr-0x2000000, val)
+end
+
+function Memory:write_u32_le(addr, val)
+    if (addr < 0x2000000) then return end
+    mainmemory.writedword(addr-0x2000000, val)
+end
+
+function Memory:write_bytes_as_array(addr, val)
+    if (addr < 0x2000000) then return end
+    mainmemory.writebyterange(addr-0x2000000, val)
+end
