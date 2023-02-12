@@ -147,12 +147,12 @@ end
 
 function Chunks:getTileColor(tileId,collision)
 	if tileId == 0x00 then 
-		if collision > 0x7F then return 0xFFCCCCCC end
+		if collision > 0x7F then return 0xFFE5D1BA end
         return 0xFF000000
 	end 
     local tileColor = ChunkData.tileIds[tileId]
     if tileColor then return tileColor end
-	if collision > 0x7F then return 0xFFCCCCCC end
+	if collision > 0x7F then return 0xFFE5D1BA end
     return 0xFF000000
 end
 

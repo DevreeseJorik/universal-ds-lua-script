@@ -1,12 +1,16 @@
 ChunkData = {
     tileData = {
         trees = {
-            color = 0xFF809030,
+            color = 0xFF737B30, -- 545D20
             ids = {}
         },
         grass = {
-            color = 0xFF80B020,
+            color = 0xFF2AA615,
             ids = {0x2,0x7B}
+        },
+        tall_grass = {
+            color = 0xFF2F654A,
+            ids = {0x3}	
         },
         default = {
             color = 0xFF000000,
@@ -25,7 +29,7 @@ ChunkData = {
             ids = {0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,0x19,0x22,0x2A,0x7C}
         },
         sand = {
-            color = 0xFFE3C000,
+            color = 0xFFE3B820,
             ids = {0x21,0x21}
         },
         deep_snow1 = {
@@ -59,10 +63,6 @@ ChunkData = {
         snow = {
             color = 0xFFB9D0EB,
             ids = {0xA8}
-        },
-        tall_grass = {
-            color = 0xFF2AA615,
-            ids = {0x3}		
         },
         misc_obj = {
             color = 0xFFFFFFFF,
@@ -201,6 +201,4 @@ function ChunkData:update()
     self.loadedZPos = Memory.read_u16_le(self.startChunkData + 0xD6)
 
     self.isChunkLoading = ({[0] = true,[1] = false})[Memory.read_u8(self.startChunkData + 0xE4)]
-
-
 end
