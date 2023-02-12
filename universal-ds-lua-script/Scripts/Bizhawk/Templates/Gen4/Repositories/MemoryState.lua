@@ -15,10 +15,12 @@ MemoryState = {
     }
 }
 
-function MemoryState:new (o)
+function MemoryState:new(savedDataPointerReference, savedDataPointerOffset, o)
     o = o or {}
     setmetatable(o, self)
     self.__index = self
+    self.savedDataPointerReference = savedDataPointerReference
+    self.savedDataPointerOffset = savedDataPointerOffset
     return o
 end
 
@@ -39,7 +41,7 @@ function MemoryState:setMemoryState(base)
 end
 
 function MemoryState:update()
-    self.base = Memory.read_u32_le(Memory.read_u32_le(0x2002848)-4)
+    self.base = Memory.read_u32_le(Memory.read_u32_le(self.savedDataPointerReference) + self.savedDataPointerOffset)
     self:setMemoryState(self.base)
 end
 

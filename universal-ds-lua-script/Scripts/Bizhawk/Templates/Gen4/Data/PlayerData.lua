@@ -1,16 +1,16 @@
 PlayerData = {
-
 }
 
-function PlayerData:new (o)
+function PlayerData:new (offsetStartNPCstruct, o)
     o = o or {}
     setmetatable(o, self)
     self.__index = self
+    self.offsetStartNPCstruct = offsetStartNPCstruct
     return o
 end
 
 function PlayerData:update()
-    self.startNPCstruct = MemoryState.base + 0x24A14 + MemoryState.memoryOffset
+    self.startNPCstruct = MemoryState.base + self.offsetStartNPCstruct + MemoryState.memoryOffset
 
     self.NPCstruct = {
         general_npc_data_ptr = Memory.read_u32_le(self.startNPCstruct + 0x8),

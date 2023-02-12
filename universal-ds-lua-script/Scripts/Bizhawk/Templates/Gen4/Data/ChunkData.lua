@@ -162,22 +162,23 @@ ChunkData = {
     tileIds = {}
 }
 
-function ChunkData:new (o)
+function ChunkData:new(offsetStartChunkData, o)
     o = o or {}
     setmetatable(o, self)
     self.__index = self
+    self.offsetStartChunkData = offsetStartChunkData
     return o
 end
 
 function ChunkData:update()
     if MemoryState.gameplayState == not "Overworld" then return end
-    self.startChunkData = Memory.read_u32_le(MemoryState.base + 0x229F0)
+    self.startChunkData = Memory.read_u32_le(MemoryState.base + self.offsetStartChunkData)
 
     self.startChunks = {
-        Memory.read_u32_le(self.startChunkData +0x90),
-        Memory.read_u32_le(self.startChunkData +0x94),
-        Memory.read_u32_le(self.startChunkData +0x98),
-        Memory.read_u32_le(self.startChunkData +0x9C)
+        Memory.read_u32_le(self.startChunkData + 0x90),
+        Memory.read_u32_le(self.startChunkData + 0x94),
+        Memory.read_u32_le(self.startChunkData + 0x98),
+        Memory.read_u32_le(self.startChunkData + 0x9C)
     }
     self.currentChunk = Memory.read_u8(self.startChunkData + 0xAC)
     self.currentSubChunk = Memory.read_u8(self.startChunkData + 0xAD)

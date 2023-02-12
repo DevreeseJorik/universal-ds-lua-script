@@ -1,11 +1,12 @@
 function Game:init()
+    self.generation = 4
     self:importFiles()
-    MemoryState = MemoryState:new()
+    MemoryState = MemoryState:new(0x2002848,-4)
     Input = Input:new(keyBinds)
     LoadLines = LoadLines:new()
-    PlayerData = PlayerData:new()
+    PlayerData = PlayerData:new(0x24A14)
 
-    ChunkData = ChunkData:new()
+    ChunkData = ChunkData:new(0x229F0)
     Chunks = Chunks:new()
 
     ScriptHandler = ScriptHandler:new()
@@ -13,14 +14,17 @@ function Game:init()
 end
 
 function Game:importFiles()
-    dofile(self.dataDir .. "/ChunkData.lua")
-    dofile(self.dataDir .. "/PlayerData.lua")
+    self.templateDir = self.templateDir .. "/Gen" .. self.generation
+    dofile(self.templateDir .. "/Data/ChunkData.lua")
+    dofile(self.templateDir .. "/Data/PlayerData.lua")
+    dofile(self.templateDir .. "/Data/KeyBinds.lua")
+    dofile(self.dataDir .. "/KeyBinds.lua") -- extend keybinds with script specific keybinds
+    dofile(self.templateDir .. "/Repositories/LoadLines.lua")
+    dofile(self.templateDir .. "/Repositories/MemoryState.lua")
+    dofile(self.templateDir .. "/Repositories/Chunks.lua")
+
     dofile(self.dataDir .. "/ScriptData.lua")
-    dofile(self.dataDir .. "/KeyBinds.lua")
     dofile(self.dir .. "/Repositories/ScriptHandler.lua")
-    dofile(self.dir .. "/Repositories/LoadLines.lua")
-    dofile(self.dir .. "/Repositories/MemoryState.lua")
-    dofile(self.dir .. "/Repositories/Chunks.lua")
 end
 
 function Game:main()
