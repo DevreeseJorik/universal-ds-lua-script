@@ -1,7 +1,7 @@
 ChunkData = {
     tileData = {
         grass = {
-            color = 0xFF80FF20,
+            color = 0xFF80B020,
             ids = {0x2,0x7B}
         },
         default = {
@@ -143,7 +143,6 @@ ChunkData = {
         bike_bridge = {
             color = 0xFFC7A55,
             ids = {0x76,0x77,0x78,0x79,0x7A,0x7D}
-            -- 0x7C moves to water, 0x7B moved to grass
         },
         soil = {
             color = 0xFFB27030,
@@ -167,6 +166,13 @@ function ChunkData:new(offsetStartChunkData, o)
     setmetatable(o, self)
     self.__index = self
     self.offsetStartChunkData = offsetStartChunkData
+
+    for k,v in pairs(self.tileData) do
+        for i=1,#self.tileData[k]['ids'] do
+            self.tileIds[self.tileData[k]['ids'][i]] = self.tileData[k]['color']
+        end
+    end
+
     return o
 end
 
@@ -180,6 +186,7 @@ function ChunkData:update()
         Memory.read_u32_le(self.startChunkData + 0x98),
         Memory.read_u32_le(self.startChunkData + 0x9C)
     }
+
     self.currentChunk = Memory.read_u8(self.startChunkData + 0xAC)
     self.currentSubChunk = Memory.read_u8(self.startChunkData + 0xAD)
     self.loadedXPosSubpixel = Memory.read_u16_le(self.startChunkData + 0xCC)
@@ -191,9 +198,5 @@ function ChunkData:update()
 
     self.isChunkLoading = ({[0] = true,[1] = false})[Memory.read_u8(self.startChunkData + 0xE4)]
 
-    for k,v in pairs(self.tileData) do
-        for i=1,#self.tileData[k]['ids'] do
-            self.tileIds[self.tileData[k]['ids'][i]] = self.tileData[k]['color']
-        end
-    end
+
 end
