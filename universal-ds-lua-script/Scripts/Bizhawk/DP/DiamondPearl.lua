@@ -11,6 +11,8 @@ function Game:init()
 
     ScriptHandler = ScriptHandler:new()
     ScriptData = ScriptData:new()
+
+    Cheats = Cheats:new(self.language)
 end
 
 function Game:importFiles()
@@ -25,6 +27,9 @@ function Game:importFiles()
 
     dofile(self.dataDir .. "/ScriptData.lua")
     dofile(self.dir .. "/Repositories/ScriptHandler.lua")
+
+    dofile(self.templateDir .. "/Repositories/Cheats.lua")
+    dofile(self.dataDir .. "/Cheats.lua") -- includes addresses
 end
 
 function Game:main()

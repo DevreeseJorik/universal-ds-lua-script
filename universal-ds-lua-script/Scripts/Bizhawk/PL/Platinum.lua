@@ -8,6 +8,8 @@ function Game:init()
     
     ChunkData = ChunkData:new(0x21804)
     Chunks = Chunks:new()
+
+    Cheats = Cheats:new(self.language)
 end
 
 function Game:importFiles()
@@ -18,6 +20,8 @@ function Game:importFiles()
     dofile(self.templateDir .. "/Repositories/LoadLines.lua")
     dofile(self.templateDir .. "/Repositories/MemoryState.lua")
     dofile(self.templateDir .. "/Repositories/Chunks.lua")
+    dofile(self.templateDir .. "/Repositories/Cheats.lua")
+    dofile(self.dataDir .. "/Cheats.lua") -- includes addresses
 end
 
 function Game:main()
