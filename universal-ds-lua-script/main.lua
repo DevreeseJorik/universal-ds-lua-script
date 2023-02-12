@@ -13,6 +13,7 @@ displayDir = "Display"
 utilityDir = "Utility"
 dataDir = "Data"
 scriptDir = "Scripts"
+templateDir = "Templates"
 
 dofile("GameLoader.lua")
 dofile("DependencyLoader.lua")
