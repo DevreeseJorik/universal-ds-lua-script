@@ -31,6 +31,7 @@ function DependencyLoader:loadDependencies()
     dofile(self.emuDir .. utilityDir .. "/Input.lua")
     dofile(self.emuDir .. utilityDir .. "/Memory.lua")
     dofile(self.emuDir .. utilityDir .. "/Utility.lua")
+    dofile(self.emuDir .. utilityDir .. "/Parsers.lua")
 
     if self.emulator == "BizHawk" then
         self:loadBizHawkDependencies(self.emuDir)
