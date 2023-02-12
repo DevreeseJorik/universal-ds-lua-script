@@ -1,7 +1,7 @@
 function Game:init()
     self.generation = 4
     self:importFiles()
-    MemoryState = MemoryState:new(0x2000BA8,20) -- alternative: 0x2000BAC
+    MemoryState = MemoryState:new(0x2000BA8,0x20) -- alternative: 0x2000BAC
     Input = Input:new(keyBinds)
     LoadLines = LoadLines:new()
     PlayerData = PlayerData:new(0x2385C)
