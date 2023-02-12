@@ -7,7 +7,7 @@ function Game:init()
     PlayerData = PlayerData:new(0x25D60)
     
     ChunkData = ChunkData:new(0x24014)
-    ChunkData.tileIds[6] = ChunkData.tileData.grass.color
+    ChunkData.tileIds[6] = ChunkData.tileData.trees.color
     Chunks = Chunks:new()
 
     Cheats = Cheats:new(self.language)

@@ -1,5 +1,9 @@
 ChunkData = {
     tileData = {
+        trees = {
+            color = 0xFF809030,
+            ids = {}
+        },
         grass = {
             color = 0xFF80B020,
             ids = {0x2,0x7B}
