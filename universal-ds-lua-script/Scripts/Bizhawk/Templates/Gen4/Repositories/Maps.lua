@@ -36,7 +36,7 @@ end
 
 function Maps:getMapColor(mapId)
     if mapId > self.maxMapId then
-        return MapData.colorMapping.jubilifeCity.color -- Maps above real maps are treated as jubilife city
+        return MapData.colorMapping.errorHandled.color -- Maps above real maps are treated as jubilife city
     end
     local color = MapData.colorMappingLUT[mapId]
     return color or MapData.colorMapping.default.color -- If no color is found, use default
