@@ -28,6 +28,8 @@ function Game:importFiles()
     dofile(self.templateDir .. "/Data/MapData.lua")
     dofile(self.templateDir .. "/Repositories/Maps.lua")
 
+    dofile(self.templateDir .. "/Repositories/Movement.lua")
+
     dofile(self.templateDir .. "/Data/KeyBinds.lua")
     
     dofile(self.templateDir .. "/Repositories/Cheats.lua")

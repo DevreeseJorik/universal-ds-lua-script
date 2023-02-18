@@ -67,25 +67,35 @@ end
 
 function Memory:write_u16_be(addr, val)
     if (addr < 0x2000000) then return end
-    mainmemory.writeword(addr-0x2000000, val)
+    mainmemory.write_u16_be(addr-0x2000000, val)
 end
 
 function Memory:write_u16_le(addr, val)
     if (addr < 0x2000000) then return end
-    mainmemory.writeword(addr-0x2000000, val)
+    mainmemory.write_u16_le(addr-0x2000000, val)
+end
+
+function Memory:write_s16_le(addr, val)
+    if (addr < 0x2000000) then return end
+    mainmemory.write_s16_le(addr-0x2000000, val)
 end
 
 function Memory:write_u32_be(addr, val)
     if (addr < 0x2000000) then return end
-    mainmemory.writedword(addr-0x2000000, val)
+    mainmemory.write_u32_be(addr-0x2000000, val)
 end
 
 function Memory:write_u32_le(addr, val)
     if (addr < 0x2000000) then return end
-    mainmemory.writedword(addr-0x2000000, val)
+    mainmemory.write_u32_le(addr-0x2000000, val)
+end
+
+function Memory:write_s32_le(addr, val)
+    if (addr < 0x2000000) then return end
+    mainmemory.write_s32_le(addr-0x2000000, val)
 end
 
 function Memory:write_bytes_as_array(addr, val)
     if (addr < 0x2000000) then return end
-    mainmemory.writebyterange(addr-0x2000000, val)
+    mainmemory.write_bytes_as_array(addr-0x2000000, val)
 end

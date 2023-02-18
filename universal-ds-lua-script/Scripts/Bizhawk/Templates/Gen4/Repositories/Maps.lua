@@ -21,11 +21,9 @@ function Maps:display()
         for j = 0, self.columns-1 do
             local mapId = Memory.read_u16_le(startAddress + (i * matrixHeight + j) * 2)
             local color = self:getMapColor(mapId)
-            
             if i == self.rows / 2 and j == self.columns / 2 then
                 color = 0xFFFFFFFF
             end
-           
             if mapId > 999 then
                 mapId = "999"
             end
