@@ -35,6 +35,8 @@ function Game:importFiles()
     dofile(self.dataDir .. "/ScriptData.lua")
     dofile(self.dir .. "/Repositories/ScriptHandler.lua")
 
+    dofile(self.templateDir .. "/Repositories/Movement.lua")
+
     dofile(self.templateDir .. "/Data/KeyBinds.lua")
     dofile(self.dataDir .. "/KeyBinds.lua") -- extend keybinds with script specific keybinds
 
