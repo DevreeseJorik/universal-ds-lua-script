@@ -18,17 +18,18 @@ function Chunks:displayChunks()
 end
 
 function Chunks:displayChunk(addr,chunkId)
-    chunk_x_offs = 0
-    if chunkId == 1 or chunkId == 3 then chunk_x_offs = 128 end
-    chunk_y_offs = 0
-    if chunkId > 1 then chunk_y_offs = 96 end
+    local chunkXOffs = 0
+    if chunkId == 1 or chunkId == 3 then chunkXOffs = 128 end
+    local chunkYOffs = 0
+    local tileData
+    if chunkId > 1 then chunkYOffs = 96 end
     for col = 0,31 do 
         for row = 0,31 do 
             tileData = memory.readword(addr+row*2 + col*64)
             tileId = bit.band(tileData,0xff)
 	        collision = bit.rshift(tileData,8)
             tileColor = self:getTileColor(tileId,collision)
-            gui.box(chunk_x_offs+row*4,chunk_y_offs+col*3,chunk_x_offs+row*4+5,chunk_y_offs+col*3+4,tileColor,0)
+            gui.box(chunkXOffs+row*4,chunkYOffs+col*3,chunkXOffs+row*4+5,chunkYOffs+col*3+4,tileColor,0)
         end
     end 
 end
