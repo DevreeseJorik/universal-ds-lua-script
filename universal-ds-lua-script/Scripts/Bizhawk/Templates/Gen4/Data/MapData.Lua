@@ -53,7 +53,7 @@ MapData = {
         },
         errorHandled = {
             color = 0xFF66FFBB,
-            ids = {3}
+            ids = {}
         }
     },
 
