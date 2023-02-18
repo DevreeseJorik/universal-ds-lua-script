@@ -32,7 +32,7 @@ MapData = {
             ids = {7,37,49,70,102,124,135,152,169,174,190,421,429,436,444,453,460,495}
         },
         jubilifeCity = {
-            color = 0xFF66FFBBFF,
+            color = 0xFF66FFBB,
             ids = {3}
         },
         goal = {
@@ -51,6 +51,10 @@ MapData = {
             color = 0xFF00BB00,
             ids = {}
         },
+        errorHandled = {
+            color = 0xFF66FFBB,
+            ids = {}
+        }
     },
 
     colorMappingLUT = {}

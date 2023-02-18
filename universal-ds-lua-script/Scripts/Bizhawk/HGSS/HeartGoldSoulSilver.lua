@@ -27,6 +27,7 @@ function Game:importFiles()
     dofile(self.templateDir .. "/Repositories/Chunks.lua")
 
     dofile(self.templateDir .. "/Data/MapData.lua")
+    dofile(self.dataDir .. "/MapData.lua") -- extend map data with color mapping for HGSS
     dofile(self.templateDir .. "/Repositories/Maps.lua")
     
     dofile(self.templateDir .. "/Repositories/Movement.lua")
