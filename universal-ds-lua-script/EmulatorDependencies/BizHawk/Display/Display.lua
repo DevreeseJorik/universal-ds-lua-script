@@ -65,7 +65,7 @@ function Display:drawLineCenteredIfWithinBounds(x,y,width,height,clr,centerX,cen
 end
 
 function Display:update()
-    self:cleanStaleLayers()
+    --self:cleanStaleLayers()
     if MemoryState.gameplayState == "Underground" then 
         self.screenY = {self.bottomScreenY,self.topScreenY} 
         return 
