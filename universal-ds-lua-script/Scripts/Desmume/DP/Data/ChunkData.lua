@@ -1,5 +1,5 @@
 ChunkData = {
-    tileData = {
+    colorMapping = {
         grass = {
             color = '#40a',
             ids = {0x2,0x7B}
@@ -167,9 +167,9 @@ function ChunkData:new (o)
     setmetatable(o, self)
     self.__index = self
 
-    for k,v in pairs(self.tileData) do
-        for i=1,#self.tileData[k]['ids'] do
-            self.tileIds[self.tileData[k]['ids'][i]] = self.tileData[k]['color']
+    for k,v in pairs(self.colorMapping) do
+        for i=1,#self.colorMapping[k]['ids'] do
+            self.tileIds[self.colorMapping[k]['ids'][i]] = self.colorMapping[k]['color']
         end
     end
 

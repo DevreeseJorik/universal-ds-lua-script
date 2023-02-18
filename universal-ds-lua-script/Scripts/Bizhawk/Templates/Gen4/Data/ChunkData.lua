@@ -1,5 +1,5 @@
 ChunkData = {
-    tileData = {
+    colorMapping = {
         trees = {
             color = 0xFF737B30, -- 545D20
             ids = {}
@@ -162,7 +162,7 @@ ChunkData = {
         },
     },
 
-    tileIds = {}
+    colorMappingLUT = {}
 }
 
 function ChunkData:new(offsetStartChunkData, o)
@@ -171,9 +171,9 @@ function ChunkData:new(offsetStartChunkData, o)
     self.__index = self
     self.offsetStartChunkData = offsetStartChunkData
 
-    for k,v in pairs(self.tileData) do
-        for i=1,#self.tileData[k]['ids'] do
-            self.tileIds[self.tileData[k]['ids'][i]] = self.tileData[k]['color']
+    for k, v in pairs(self.colorMapping) do
+        for _, id in ipairs(v.ids) do
+            self.colorMappingLUT[id] = v.color
         end
     end
 
