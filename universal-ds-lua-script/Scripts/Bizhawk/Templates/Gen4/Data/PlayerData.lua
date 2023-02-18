@@ -32,18 +32,18 @@ function PlayerData:update()
         z_32_r = Memory.read_u32_le(self.startNPCstruct + 0x80),
     
         -- coords for interacting with terain/collision + position in ram
-        x_phys_32 = Memory.read_u32_le(self.startNPCstruct + 0x84),
-        y_phys_32 = Memory.read_u32_le(self.startNPCstruct + 0x88),
-        z_phys_32 = Memory.read_u32_le(self.startNPCstruct + 0x8C),
+        x_phys_32 = Memory.read_s32_le(self.startNPCstruct + 0x84),
+        y_phys_32 = Memory.read_s32_le(self.startNPCstruct + 0x88),
+        z_phys_32 = Memory.read_s32_le(self.startNPCstruct + 0x8C),
     
         -- coords used for camera position
         -- has subpixel precision
-        x_cam_subpixel_16 = Memory.read_u16_le(self.startNPCstruct + 0x90),
-        x_cam_16 = Memory.read_u16_le(self.startNPCstruct + 0x92),
-        y_cam_subpixel_16 = Memory.read_u16_le(self.startNPCstruct + 0x94),
-        y_cam_16 = Memory.read_u16_le(self.startNPCstruct + 0x96),
-        z_cam_subpixel_16 = Memory.read_u16_le(self.startNPCstruct + 0x98),
-        z_cam_16 = Memory.read_u16_le(self.startNPCstruct + 0x9A),
+        x_cam_subpixel_16 = Memory.read_s16_le(self.startNPCstruct + 0x90),
+        x_cam_16 = Memory.read_s16_le(self.startNPCstruct + 0x92),
+        y_cam_subpixel_16 = Memory.read_s16_le(self.startNPCstruct + 0x94),
+        y_cam_16 = Memory.read_s16_le(self.startNPCstruct + 0x96),
+        z_cam_subpixel_16 = Memory.read_s16_le(self.startNPCstruct + 0x98),
+        z_cam_16 = Memory.read_s16_le(self.startNPCstruct + 0x9A),
     
         tile_type_16_1 = Memory.read_u16_le(self.startNPCstruct + 0xCC),
         tile_type_16_2 = Memory.read_u16_le(self.startNPCstruct + 0xCE),
