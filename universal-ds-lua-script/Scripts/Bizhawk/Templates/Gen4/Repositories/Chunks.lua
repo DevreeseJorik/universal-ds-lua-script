@@ -2,8 +2,7 @@ Chunks = {
     showChunks = true,
     chunks = {},
     isChunkLoaded = false,
-    bg = 0xFF000000,
-    showBoundingBoxes = false
+    -- showBoundingBoxes = false
 }
 
 function Chunks:new (o)
@@ -21,6 +20,9 @@ function Chunks:displayChunks()
             self:displayChunkClustered(i)
         end
     end
+end
+
+function Chunks:showDrawCount()
     gui.text(Display.rightScreen*2 + 10, 192*2, "drawn clustered tiles: " .. self.drawnRects)
 end
 
@@ -135,11 +137,11 @@ function Chunks:displayChunkClustered(chunkId)
     for i=0,#clusteredTiles do
         local tile = clusteredTiles[i]
         if tile ~= nil then
-            if self.showBoundingBoxes then 
-                gui.drawRectangle(Display.rightScreen + paddingLeft + tile.x*w,paddingTop + tile.y*h,tile.horizontalClusterCount*w-1,tile.verticalClusterCount*h-1,"red",tile.color)
-            else 
-                gui.drawRectangle(Display.rightScreen + paddingLeft + tile.x*w,paddingTop + tile.y*h,tile.horizontalClusterCount*w-1,tile.verticalClusterCount*h-1,tile.color,tile.color)
-            end
+            -- if self.showBoundingBoxes then 
+            --     gui.drawRectangle(Display.rightScreen + paddingLeft + tile.x*w,paddingTop + tile.y*h,tile.horizontalClusterCount*w-1,tile.verticalClusterCount*h-1,"red",tile.color)
+            -- else 
+            gui.drawRectangle(Display.rightScreen + paddingLeft + tile.x*w,paddingTop + tile.y*h,tile.horizontalClusterCount*w-1,tile.verticalClusterCount*h-1,tile.color,tile.color)
+            -- end
         end
     end
     self.drawnRects = self.drawnRects + #clusteredTiles
@@ -150,7 +152,7 @@ function Chunks:getTileColor(tileId,collision)
 		if collision > 0x7F then return 0xFFE5D1BA end
         return 0xFF000000
 	end 
-    local tileColor = ChunkData.tileIds[tileId]
+    local tileColor = ChunkData.colorMappingLUT[tileId]
     if tileColor then return tileColor end
 	if collision > 0x7F then return 0xFFE5D1BA end
     return 0xFF000000
