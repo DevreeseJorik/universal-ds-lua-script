@@ -15,20 +15,22 @@ end
 
 function Maps:display()
     local matrixHeight = MapData.matrixHeight
-    local startAddress = MapData.currentMatrixAddr - (self.rows * matrixHeight + self.columns) -- should do * 2 for 16 bit, but we only want the center so we'd need to devide by 2 again, so we can just skip it
-    
+    local currentMatrixAddr = MapData.currentMatrixAddr
+    local startAddress = currentMatrixAddr - (self.rows * matrixHeight + self.columns) -- should do * 2 for 16 bit, but we only want the center so we'd need to devide by 2 again, so we can just skip it
+    local address, mapId, color, x, y
     for i = 0, self.rows-1 do
         for j = 0, self.columns-1 do
-            local mapId = Memory.read_u16_le(startAddress + (i * matrixHeight + j) * 2)
-            local color = self:getMapColor(mapId)
-            if i == self.rows / 2 and j == self.columns / 2 then
+            address = startAddress + (i * matrixHeight + j) * 2
+            mapId = Memory.read_u16_le(address)
+            color = self:getMapColor(mapId)
+            if address == currentMatrixAddr then
                 color = 0xFFFFFFFF
             end
             if mapId > 999 then
                 mapId = "999"
             end
-            local x = j * 19
-            local y = i * 9
+            x = j * 19
+            y = i * 9
             gui.text((Display.rightScreen + x + 2)*2, (Display.height + y + 10)*2, mapId, color)
         end
     end
