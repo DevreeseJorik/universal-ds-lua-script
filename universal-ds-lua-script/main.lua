@@ -25,7 +25,7 @@ Display = Display:new()
 
 if game.game == 0 then
 	while true do
-		gui.text(0, 0, "Unknown or invalid ROM")
+		gui.text(1, 0, "Unknown or invalid ROM")
 		emu.frameadvance()
 	end
 else
