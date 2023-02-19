@@ -1,7 +1,7 @@
 Maps = {
     showMaps = true,
     rows = 20,
-    columns = 10
+    columns = 16
 
 }
 
