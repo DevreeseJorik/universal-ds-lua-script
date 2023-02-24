@@ -1,5 +1,8 @@
 BoundingBoxes =  {
-
+    BoundingBoxColors = {
+        background = 0x80B0B0FF,
+        border = 0xB0B0B0FF,
+    }
 }
 
 function BoundingBoxes:new(o)
@@ -19,7 +22,7 @@ function BoundingBoxes:display()
         centerY - h/2,
         w,
         h, 
-        0xFF0000FF,
-        0xFF0000FF
+        self.BoundingBoxColors.background,
+        self.BoundingBoxColors.border
     )
 end
