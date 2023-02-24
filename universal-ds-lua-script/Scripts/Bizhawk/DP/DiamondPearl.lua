@@ -12,8 +12,10 @@ function Game:init()
     MapData = MapData:new(0x22A84)
     Maps = Maps:new(558)
 
-    ScriptHandler = ScriptHandler:new()
+    EventTriggers = EventTriggers:new(0x23C80)
+
     ScriptData = ScriptData:new()
+    ScriptHandler = ScriptHandler:new()
 
     Cheats = Cheats:new(self.language)
 end
@@ -32,8 +34,8 @@ function Game:importFiles()
     dofile(self.templateDir .. "/Data/MapData.lua")
     dofile(self.templateDir .. "/Repositories/Maps.lua")
 
-    dofile(self.templateDir .. "/Data/ObjectData.lua")
-    dofile(self.templateDir .. "/Repositories/Objects.lua")
+    dofile(self.templateDir .. "/Data/EventTriggerData.lua")
+    --dofile(self.templateDir .. "/Repositories/EventTriggers.lua")
 
     dofile(self.dataDir .. "/ScriptData.lua")
     dofile(self.dir .. "/Repositories/ScriptHandler.lua")
