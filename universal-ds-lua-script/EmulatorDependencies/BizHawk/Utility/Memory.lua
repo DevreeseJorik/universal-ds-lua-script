@@ -104,7 +104,7 @@ function Memory:getByteRange(table,index, size)
     local shift = (size - 1) * 8
     local value = 0
     for i = index, index + size - 1 do
-        value = bit.bor(value, bit.lshift(table[i], shift))
+        value = bit.bor(value, bit.lshift(tonumber(table[i+1]), shift))
         shift = shift - 8
     end
     return value
