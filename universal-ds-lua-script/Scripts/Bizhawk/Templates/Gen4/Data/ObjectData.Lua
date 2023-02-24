@@ -1,3 +1,83 @@
+TalkTrigger = {
+    runtime_id = 0,
+    x = 0,
+    y = 0,
+    z = 0,
+    unknown = 0
+}
+
+function TalkTrigger:new(runtime_id,x,y,z,unknown,o)
+    o = o or {}
+    setmetatable(o, self)
+    self.__index = self
+    self.runtime_id = runtime_id
+    self.x = x
+    self.y = y
+    self.z = z
+    self.unknown = unknown
+    return o
+end
+
+UnknownTrigger = {
+    x = 0,
+    y = 0,
+    z = 0
+}
+
+function UnknownTrigger:new(x,y,z,o)
+    o = o or {}
+    setmetatable(o, self)
+    self.__index = self
+    self.x = x
+    self.y = y
+    self.z = z
+    return o
+end
+
+WarpTrigger = {
+    x = 0,
+    z = 0,
+    map = 0,
+    targetWarpId = 0,
+    unknown = 0
+}
+
+function WarpTrigger:new(x,z,map,targetWarpId,unknown,o)
+    o = o or {}
+    setmetatable(o, self)
+    self.__index = self
+    self.x = x
+    self.z = z
+    self.map = map
+    self.targetWarpId = targetWarpId
+    self.unknown = unknown
+    return o
+end
+
+WalkTrigger = {
+    unknown1 = 0,
+    x = 0,
+    z = 0,
+    numTriggersVertical = 0,
+    numTriggersHorizontal = 0,
+    unknown2 = 0,
+    flag = 0
+}
+
+function WalkTrigger:new(unknown1,x,z,numTriggersVertical,numTriggersHorizontal,unknown2,flag,o)
+    o = o or {}
+    setmetatable(o, self)
+    self.__index = self
+    self.unknown1 = unknown1
+    self.x = x
+    self.z = z
+    self.numTriggersVertical = numTriggersVertical
+    self.numTriggersHorizontal = numTriggersHorizontal
+    self.unknown2 = unknown2
+    self.flag = flag
+    return o
+end
+
 EventTriggers = {
 
 }
@@ -84,85 +164,5 @@ function EventTriggers:update()
             Memory:getByteRange(self.walkTriggerMemory, i * self.walkTriggerSize + 0xC, 0x4) -- flag id
         )
     end
-end
-
-TalkTrigger = {
-    runtime_id = 0,
-    x = 0,
-    y = 0,
-    z = 0,
-    unknown = 0
-}
-
-function TalkTrigger:new(runtime_id,x,y,z,unknown,o)
-    o = o or {}
-    setmetatable(o, self)
-    self.__index = self
-    self.runtime_id = runtime_id
-    self.x = x
-    self.y = y
-    self.z = z
-    self.unknown = unknown
-    return o
-end
-
-UnknownTrigger = {
-    x = 0,
-    y = 0,
-    z = 0
-}
-
-function UnknownTrigger:new(x,y,z,o)
-    o = o or {}
-    setmetatable(o, self)
-    self.__index = self
-    self.x = x
-    self.y = y
-    self.z = z
-    return o
-end
-
-WarpTrigger = {
-    x = 0,
-    z = 0,
-    map = 0,
-    targetWarpId = 0,
-    unknown = 0
-}
-
-function WarpTrigger:new(x,z,map,targetWarpId,unknown,o)
-    o = o or {}
-    setmetatable(o, self)
-    self.__index = self
-    self.x = x
-    self.z = z
-    self.map = map
-    self.targetWarpId = targetWarpId
-    self.unknown = unknown
-    return o
-end
-
-WalkTrigger = {
-    unknown1 = 0,
-    x = 0,
-    z = 0,
-    numTriggersVertical = 0,
-    numTriggersHorizontal = 0,
-    unknown2 = 0,
-    flag = 0
-}
-
-function WalkTrigger:new(unknown1,x,z,numTriggersVertical,numTriggersHorizontal,unknown2,flag,o)
-    o = o or {}
-    setmetatable(o, self)
-    self.__index = self
-    self.unknown1 = unknown1
-    self.x = x
-    self.z = z
-    self.numTriggersVertical = numTriggersVertical
-    self.numTriggersHorizontal = numTriggersHorizontal
-    self.unknown2 = unknown2
-    self.flag = flag
-    return o
 end
 
