@@ -38,6 +38,8 @@ function Game:importFiles()
     dofile(self.templateDir .. "/Data/EventTriggerData.lua")
     dofile(self.templateDir .. "/Repositories/EventTriggers.lua")
 
+    dofile(self.templateDir .. "/repositories/BoundingBoxes.lua")
+
     dofile(self.dataDir .. "/ScriptData.lua")
     dofile(self.dir .. "/Repositories/ScriptHandler.lua")
 
@@ -67,11 +69,13 @@ function Game:main()
     ScriptHandler:display()
     
     Maps:display()
+    Movement:display()
     ScriptHandler:display()
 
     if (updateFrame % 4 == 0) then
         LoadLines:display()
         Chunks:display()
+        BoundingBoxes:display()
         EventTriggers:display()
     end
     Chunks:showDrawCount()
