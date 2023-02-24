@@ -32,6 +32,9 @@ function Game:importFiles()
     dofile(self.templateDir .. "/Data/MapData.lua")
     dofile(self.templateDir .. "/Repositories/Maps.lua")
 
+    dofile(self.templateDir .. "/Data/ObjectData.lua")
+    dofile(self.templateDir .. "/Repositories/Objects.lua")
+
     dofile(self.dataDir .. "/ScriptData.lua")
     dofile(self.dir .. "/Repositories/ScriptHandler.lua")
 
