@@ -1,7 +1,5 @@
 ScriptHandler = {
-    scriptDataX = 20,
     scriptDataY = 80,
-    dissasemblerX = 20,
     dissasemblerY = 245,
     addressColor = 0xFFFFFFFF,
     commandColor = 0xFFFF00FF,
@@ -87,7 +85,7 @@ function ScriptHandler:incrementGridIndex_Bytes(size,addr)
     local x = self.gridIndex % 16
     local y = math.floor(self.gridIndex/16)
     if (x == 0) and (y < self.maxLines) then -- display Address
-        gui.text(self.dissasemblerX,y * 24 + self.dissasemblerY, Utility:format(addr+1,8), self.addressColor)
+        gui.text(1,y * 24 + self.dissasemblerY, Utility:format(addr+1,8), self.addressColor)
     end 
     return x,y
 end
@@ -100,7 +98,7 @@ function ScriptHandler:updateGrid_Bytes(bytes, color, addr, size)
     local byte = 0
     for i = 0,size-1 do
         byte = bit.band(bit.rshift(bytes, (size-1-i) * 8), 0xFF)
-        gui.text(self.dissasemblerX + 90 + x *24, self.dissasemblerY + y*24, Utility:format(byte,2), color)
+        gui.text(90 + x *24, self.dissasemblerY + y*24, Utility:format(byte,2), color)
         x,y = self:incrementGridIndex_Bytes(1,addr+i)
     end
 end
@@ -109,7 +107,7 @@ function ScriptHandler:updateGrid_Str(text, color, addr)
     size = size or 2
     local x = self.gridIndex % 16
     local y = math.floor(self.gridIndex/16)
-    gui.text(self.dissasemblerX+90, self.dissasemblerY + y*24, text, color)
+    gui.text(90, self.dissasemblerY + y*24, text, color)
 
     -- if addr == 0 then 
     --     self.endExecution = true 
@@ -242,18 +240,18 @@ end
 function ScriptHandler:display()
     if not ScriptData.showScriptData then return end
 
-    gui.text(self.scriptDataX,self.scriptDataY,"Script Type: " .. ScriptData.eventType)
-    gui.text(self.scriptDataX+10,self.scriptDataY+20,"Next Script Command: 0x" .. Utility:format(ScriptData.nextScriptCommandAddr,8))
-    gui.text(self.scriptDataX+10,self.scriptDataY+40,"Jump Addr: 0x" .. Utility:format(ScriptData.jumpAddr,1))
-    gui.text(self.scriptDataX+10,self.scriptDataY+60,"Jump Amount: 0x" .. Utility:format(ScriptData.jumpAmount,1))
-    gui.text(self.scriptDataX+10,self.scriptDataY+80,"Event Id: 0x" .. Utility:format(ScriptData.eventId,1) .. ", Jump table Id: 0x" .. Utility:format(ScriptData.jumpTableId,1))
-    gui.text(self.scriptDataX+10,self.scriptDataY+100,"Start of Script: 0x" .. Utility:format(ScriptData.startOfScriptAddr,1) .. " ([Base] + 0x" .. Utility:format(ScriptData.startOfScriptAddr - MemoryState.base,1) .. ")")
+    gui.text(1,self.scriptDataY,"Script Type: " .. ScriptData.eventType)
+    gui.text(10,self.scriptDataY+20,"Next Script Command: 0x" .. Utility:format(ScriptData.nextScriptCommandAddr,8))
+    gui.text(10,self.scriptDataY+40,"Jump Addr: 0x" .. Utility:format(ScriptData.jumpAddr,1))
+    gui.text(10,self.scriptDataY+60,"Jump Amount: 0x" .. Utility:format(ScriptData.jumpAmount,1))
+    gui.text(10,self.scriptDataY+80,"Event Id: 0x" .. Utility:format(ScriptData.eventId,1) .. ", Jump table Id: 0x" .. Utility:format(ScriptData.jumpTableId,1))
+    gui.text(10,self.scriptDataY+100,"Start of Script: 0x" .. Utility:format(ScriptData.startOfScriptAddr,1) .. " ([Base] + 0x" .. Utility:format(ScriptData.startOfScriptAddr - MemoryState.base,1) .. ")")
 
     local returnText = "Script is still running"
     if ScriptData.hasReturned then
         returnText = "Script has returned"
     end
 
-    gui.text(self.scriptDataX,self.scriptDataY+120,returnText,self.returnColors[ScriptData.hasReturned])
+    gui.text(1,self.scriptDataY+120,returnText,self.returnColors[ScriptData.hasReturned])
     self:disassembleScriptData()
 end

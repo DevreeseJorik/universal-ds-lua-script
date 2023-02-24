@@ -88,13 +88,13 @@ function Game:displayGameInfo()
 end 
 
 function Game:displayBizHawkGameInfo()
-    gui.text(0,0,"Emulator: " .. dl.emulator .. " " .. dl.emuVersion)
+    gui.text(1,0,"Emulator: " .. dl.emulator .. " " .. dl.emuVersion)
     gui.text(Display.left*2-220,0,"Frames:" .. emu.framecount())
     gui.text(Display.left*2-80,0,"FPS:" .. client.get_approx_framerate())
-    gui.text(0,20,"Rom: " .. self.romName .. " - " .. self.language .. " " .. self.gameName)
+    gui.text(1,20,"Rom: " .. self.romName .. " - " .. self.language .. " " .. self.gameName)
 end
 
 function Game:displayDeSmuMEGameInfo()
-    gui.text(0,0,"Emulator: " .. dl.emulator .. " ")
-    gui.text(0,20,"Rom: " .. self.romName .. " - " .. self.language .. " " .. self.gameName)
+    gui.text(1,0,"Emulator: " .. dl.emulator .. " ")
+    gui.text(1,20,"Rom: " .. self.romName .. " - " .. self.language .. " " .. self.gameName)
 end

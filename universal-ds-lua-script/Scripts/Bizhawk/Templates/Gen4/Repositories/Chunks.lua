@@ -20,6 +20,7 @@ function Chunks:displayChunks()
             self:displayChunkClustered(i)
         end
     end
+    self:displayPlayerPosition()
 end
 
 function Chunks:showDrawCount()
@@ -134,8 +135,9 @@ function Chunks:displayChunkClustered(chunkId)
     local h = 3
     local paddingLeft = (32*w)*(chunkId%2)
     local paddingTop = (32*h)*(math.floor(chunkId/2))
+    local tile
     for i=0,#clusteredTiles do
-        local tile = clusteredTiles[i]
+        tile = clusteredTiles[i]
         if tile ~= nil then
             -- if self.showBoundingBoxes then 
             --     gui.drawRectangle(Display.rightScreen + paddingLeft + tile.x*w,paddingTop + tile.y*h,tile.horizontalClusterCount*w-1,tile.verticalClusterCount*h-1,"red",tile.color)
@@ -146,6 +148,22 @@ function Chunks:displayChunkClustered(chunkId)
     end
     self.drawnRects = self.drawnRects + #clusteredTiles
 end 
+
+function Chunks:displayPlayerPosition()
+    local w,h = 3,3
+    local color = 0xFF7700CC
+    local colorBorder = 0xFFAA00FF
+    local NPCstruct = PlayerData.NPCstruct
+    local x = NPCstruct.x_phys_32
+    local z = NPCstruct.z_phys_32
+    local chunkX = math.floor(x%32)
+    local chunkZ = math.floor(z%32)
+    local chunkId = ChunkData.currentChunk
+    local paddingLeft = (32*w)*(chunkId%2)
+    local paddingTop = (32*h)*(math.floor(chunkId/2))
+    gui.drawRectangle(Display.rightScreen + paddingLeft + chunkX*w -1,paddingTop + chunkZ*h -1,w+1,h+1,colorBorder,color)
+end
+
 
 function Chunks:getTileColor(tileId,collision)
 	if tileId == 0x00 then 

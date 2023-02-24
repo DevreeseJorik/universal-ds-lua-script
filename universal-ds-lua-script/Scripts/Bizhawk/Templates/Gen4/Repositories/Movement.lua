@@ -10,6 +10,14 @@ function Movement:new()
     return o
 end
 
+function Movement:display()
+    local NPCstruct = PlayerData.NPCstruct
+    gui.text((Display.rightScreen + 200)*2, 10, "x_phys_32: " .. NPCstruct.x_phys_32)
+    gui.text((Display.rightScreen + 200)*2, 30, "x_cam_16: " .. NPCstruct.x_cam_16)
+    gui.text((Display.rightScreen + 200)*2, 50, "z_phys_32: " .. NPCstruct.z_phys_32)
+    gui.text((Display.rightScreen + 200)*2, 70, "z_cam_16: " .. NPCstruct.z_cam_16)
+end
+
 function Movement:teleportXZ(xDiff,zDiff) -- not changing player height
     local NPCstruct = PlayerData.NPCstruct
     local startNPCstruct = PlayerData.startNPCstruct

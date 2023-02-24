@@ -1,8 +1,8 @@
 Display = { -- for gui.text, multiply by 2 to get the correct position
     top = 0,
     bottom = 0,
-    left = 260,
-    right = 192,
+    left = 240,
+    right = 304,
     topScreenY = 0,
     width = 256,
     height = 191

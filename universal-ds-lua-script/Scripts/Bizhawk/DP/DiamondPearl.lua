@@ -12,8 +12,11 @@ function Game:init()
     MapData = MapData:new(0x22A84)
     Maps = Maps:new(558)
 
-    ScriptHandler = ScriptHandler:new()
+    EventTriggersData = EventTriggersData:new(0x23C80)
+    EventTriggers = EventTriggers:new()
+
     ScriptData = ScriptData:new()
+    ScriptHandler = ScriptHandler:new()
 
     Cheats = Cheats:new(self.language)
 end
@@ -31,6 +34,11 @@ function Game:importFiles()
 
     dofile(self.templateDir .. "/Data/MapData.lua")
     dofile(self.templateDir .. "/Repositories/Maps.lua")
+
+    dofile(self.templateDir .. "/Data/EventTriggerData.lua")
+    dofile(self.templateDir .. "/Repositories/EventTriggers.lua")
+
+    dofile(self.templateDir .. "/repositories/BoundingBoxes.lua")
 
     dofile(self.dataDir .. "/ScriptData.lua")
     dofile(self.dir .. "/Repositories/ScriptHandler.lua")
@@ -52,6 +60,7 @@ function Game:main()
     PlayerData:update()
     ChunkData:update()
     MapData:update()
+    EventTriggersData:update()
     ScriptData:update()
 
     Input:runChecks()
@@ -60,11 +69,14 @@ function Game:main()
     ScriptHandler:display()
     
     Maps:display()
+    Movement:display()
     ScriptHandler:display()
 
     if (updateFrame % 4 == 0) then
         LoadLines:display()
         Chunks:display()
+        BoundingBoxes:display()
+        EventTriggers:display()
     end
     Chunks:showDrawCount()
 

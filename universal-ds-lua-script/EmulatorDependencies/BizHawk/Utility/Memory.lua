@@ -99,3 +99,23 @@ function Memory:write_bytes_as_array(addr, val)
     if (addr < 0x2000000) then return end
     mainmemory.write_bytes_as_array(addr-0x2000000, val)
 end
+
+function Memory:getByteRange_be(table,index, size)
+    local shift = (size - 1) * 8
+    local value = 0
+    for i = index, index + size - 1 do
+        value = bit.bor(value, bit.lshift(tonumber(table[i+1]), shift))
+        shift = shift - 8
+    end
+    return value
+end
+
+function Memory:getByteRange(table, index, size)
+    local shift = 0
+    local value = 0
+    for i = index, index + size - 1 do
+        value = bit.bor(value, bit.lshift(tonumber(table[i+1]), shift))
+        shift = shift + 8
+    end
+    return value
+end
