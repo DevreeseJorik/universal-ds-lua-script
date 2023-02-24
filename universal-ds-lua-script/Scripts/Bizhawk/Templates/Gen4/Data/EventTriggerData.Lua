@@ -141,8 +141,8 @@ function EventTriggers:update()
         self.warpTriggers[i] = WarpTrigger:new(
             Memory:getByteRange(self.warpTriggerMemory, i * self.warpTriggerSize + 0x0, 0x2), -- x
             Memory:getByteRange(self.warpTriggerMemory, i * self.warpTriggerSize + 0x2, 0x4), -- z
-            Memory:getByteRange(self.warpTriggerMemory, i * self.warpTriggerSize + 0x4, 0x2) -- map
-            Memory:getByteRange(self.warpTriggerMemory, i * self.warpTriggerSize + 0x6, 0x2) --  target warp id
+            Memory:getByteRange(self.warpTriggerMemory, i * self.warpTriggerSize + 0x4, 0x2), -- map
+            Memory:getByteRange(self.warpTriggerMemory, i * self.warpTriggerSize + 0x6, 0x2), --  target warp id
             Memory:getByteRange(self.warpTriggerMemory, i * self.warpTriggerSize + 0x8, 0x4) -- unknown1
         )
     end
