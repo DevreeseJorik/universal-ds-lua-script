@@ -15,7 +15,7 @@ Cheats.addresses = {
         noClip = 0x0 -- TODO
     },
     ["Japanese"] = {
-        noClip = 0x0 -- TODO
+        noClip = 0x205D5C4 -- TODO
     },
     ["Korean"] = {
         noClip = 0x0 -- TODO
