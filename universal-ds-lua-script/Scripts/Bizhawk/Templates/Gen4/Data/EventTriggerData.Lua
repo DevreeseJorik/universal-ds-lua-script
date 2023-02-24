@@ -25,13 +25,19 @@ UnknownTrigger = {
     z = 0
 }
 
-function UnknownTrigger:new(x,y,z,obj)
+-- I can't be bothered to figure out the structure right now since I won't be using this
+function NPCSpawnTrigger:new(unknown1,unknown2,unknown3,unknown4,unknown5,unknown6,unknown7,unknown8,obj)
     obj = obj or {}
     setmetatable(obj, self)
     obj.__index = self
-    obj.x = x
-    obj.y = y
-    obj.z = z
+    obj.unknown1 = unknown1
+    obj.unknown2 = unknown2
+    obj.unknown3 = unknown3
+    obj.unknown4 = unknown4
+    obj.unknown5 = unknown5
+    obj.unknown6 = unknown6
+    obj.unknown7 = unknown7
+    obj.unknown8 = unknown8
     return obj
 end
 
@@ -43,7 +49,7 @@ WarpTrigger = {
     unknown = 0
 }
 
-function WarpTrigger:new(x,z,map,targetWarpId,unknown,obj)
+function WarpTrigger:new(x,z,map,targetWarpId,unknown1,obj)
     obj = obj or {}
     setmetatable(obj, self)
     obj.__index = self
@@ -51,7 +57,7 @@ function WarpTrigger:new(x,z,map,targetWarpId,unknown,obj)
     obj.z = z
     obj.map = map
     obj.targetWarpId = targetWarpId
-    obj.unknown = unknown
+    obj.unknown1 = unknown1
     return obj
 end
 
@@ -59,21 +65,21 @@ WalkTrigger = {
     unknown1 = 0,
     x = 0,
     z = 0,
-    numTriggersVertical = 0,
     numTriggersHorizontal = 0,
+    numTriggersVertical = 0,
     unknown2 = 0,
     flag = 0
 }
 
-function WalkTrigger:new(unknown1,x,z,numTriggersVertical,numTriggersHorizontal,unknown2,flag,obj)
+function WalkTrigger:new(unknown1,x,z,numTriggersHorizontal,numTriggersVertical,unknown2,flag,obj)
     obj = obj or {}
     setmetatable(obj, self)
     obj.__index = self
     obj.unknown1 = unknown1
     obj.x = x
     obj.z = z
-    obj.numTriggersVertical = numTriggersVertical
     obj.numTriggersHorizontal = numTriggersHorizontal
+    obj.numTriggersVertical = numTriggersVertical
     obj.unknown2 = unknown2
     obj.flag = flag
     return obj
@@ -125,27 +131,27 @@ function EventTriggersData:updateTalkTriggers()
     end
 end
 
-function EventTriggersData:updateUnknownTriggers()
-    self.unknownTriggersReferences = Memory.read_u32_le(MemoryState.base + self.offsetObjectReferences + MemoryState.memoryOffset + 0x34)
-    self.unknownTriggers = {}
-    if self.unknownTriggersReferences == 0 then
-        self.unknownTriggerCount = 0
+function EventTriggersData:updateNPCSPawnTriggers()
+    self.npcSpawnTriggersReferences = Memory.read_u32_le(MemoryState.base + self.offsetObjectReferences + MemoryState.memoryOffset + 0x34)
+    self.npcSpawnTriggers = {}
+    if self.npcSpawnTriggersReferences == 0 then
+        self.npcSpawnTriggerCount = 0
         return
     end
 
-    self.unknownTriggerCount = Memory.read_u32_le(self.unknownTriggersReferences - 0x4)
+    self.npcSpawnTriggerCount = Memory.read_u32_le(self.npcSpawnTriggersReferences - 0x4)
 
-    self.unknownTriggerMemory = Memory.read_bytes_as_array(self.unknownTriggersReferences, self.unknownTriggerCount * self.unknownTriggerSize)
-    for i = 0, self.unknownTriggerCount - 1 do
-        self.unknownTriggers[i+1] = UnknownTrigger:new(
-            -- Memory:getByteRange(self.unknownTriggerMemory, i * self.unknownTriggerSize + 0x0, 0x4), -- unknown1
-            -- Memory:getByteRange(self.unknownTriggerMemory, i * self.unknownTriggerSize + 0x4, 0x4), -- unknown2
-            -- Memory:getByteRange(self.unknownTriggerMemory, i * self.unknownTriggerSize + 0x8, 0x4), -- unknown3
-            -- Memory:getByteRange(self.unknownTriggerMemory, i * self.unknownTriggerSize + 0xC, 0x4), -- unknown4
-            -- Memory:getByteRange(self.unknownTriggerMemory, i * self.unknownTriggerSize + 0x10, 0x4), -- unknown5
-            -- Memory:getByteRange(self.unknownTriggerMemory, i * self.unknownTriggerSize + 0x14, 0x4), -- unknown6
-            -- Memory:getByteRange(self.unknownTriggerMemory, i * self.unknownTriggerSize + 0x18, 0x4), -- unknown7
-            -- Memory:getByteRange(self.unknownTriggerMemory, i * self.unknownTriggerSize + 0x1C, 0x4) -- unknown8
+    self.npcSpawnTriggerMemory = Memory.read_bytes_as_array(self.npcSpawnTriggersReferences, self.npcSpawnTriggerCount * self.npcSpawnTriggerSize)
+    for i = 0, self.npcSpawnTriggerCount - 1 do
+        self.npcSpawnTriggers[i+1] = NPCSpawnTrigger:new(
+            Memory:getByteRange(self.NPCSpawnTriggerMemory, i * self.NPCSpawnTriggerSize + 0x0, 0x4), -- unknown1
+            Memory:getByteRange(self.NPCSpawnTriggerMemory, i * self.NPCSpawnTriggerSize + 0x4, 0x4), -- unknown2
+            Memory:getByteRange(self.NPCSpawnTriggerMemory, i * self.NPCSpawnTriggerSize + 0x8, 0x4), -- unknown3
+            Memory:getByteRange(self.NPCSpawnTriggerMemory, i * self.NPCSpawnTriggerSize + 0xC, 0x4), -- unknown4
+            Memory:getByteRange(self.NPCSpawnTriggerMemory, i * self.NPCSpawnTriggerSize + 0x10, 0x4), -- unknown5
+            Memory:getByteRange(self.NPCSpawnTriggerMemory, i * self.NPCSpawnTriggerSize + 0x14, 0x4), -- unknown6
+            Memory:getByteRange(self.NPCSpawnTriggerMemory, i * self.NPCSpawnTriggerSize + 0x18, 0x4), -- unknown7
+            Memory:getByteRange(self.NPCSpawnTriggerMemory, i * self.NPCSpawnTriggerSize + 0x1C, 0x4) -- unknown8
         )
     end
 end
@@ -164,7 +170,7 @@ function EventTriggersData:updateWarpTriggers()
     for i = 0, self.warpTriggerCount - 1 do
         self.warpTriggers[i+1] = WarpTrigger:new(
             Memory:getByteRange(self.warpTriggerMemory, i * self.warpTriggerSize + 0x0, 0x2), -- x
-            Memory:getByteRange(self.warpTriggerMemory, i * self.warpTriggerSize + 0x2, 0x4), -- z
+            Memory:getByteRange(self.warpTriggerMemory, i * self.warpTriggerSize + 0x2, 0x2), -- z
             Memory:getByteRange(self.warpTriggerMemory, i * self.warpTriggerSize + 0x4, 0x2), -- map
             Memory:getByteRange(self.warpTriggerMemory, i * self.warpTriggerSize + 0x6, 0x2), --  target warp id
             Memory:getByteRange(self.warpTriggerMemory, i * self.warpTriggerSize + 0x8, 0x4) -- unknown1
@@ -188,8 +194,8 @@ function EventTriggersData:updateWalkTriggers()
             Memory:getByteRange(self.walkTriggerMemory, i * self.walkTriggerSize + 0x0, 0x2), -- unknown1
             Memory:getByteRange(self.walkTriggerMemory, i * self.walkTriggerSize + 0x2, 0x2), -- x
             Memory:getByteRange(self.walkTriggerMemory, i * self.walkTriggerSize + 0x4, 0x2), -- z
-            Memory:getByteRange(self.walkTriggerMemory, i * self.walkTriggerSize + 0x6, 0x2), -- numTriggersVertical
-            Memory:getByteRange(self.walkTriggerMemory, i * self.walkTriggerSize + 0x8, 0x2), -- numTriggersHorizontal
+            Memory:getByteRange(self.walkTriggerMemory, i * self.walkTriggerSize + 0x6, 0x2), -- numTriggersHorizontal
+            Memory:getByteRange(self.walkTriggerMemory, i * self.walkTriggerSize + 0x8, 0x2), -- numTriggersVertical
             Memory:getByteRange(self.walkTriggerMemory, i * self.walkTriggerSize + 0xA, 0x2), -- unknown2
             Memory:getByteRange(self.walkTriggerMemory, i * self.walkTriggerSize + 0xC, 0x4) -- flag id
         )
