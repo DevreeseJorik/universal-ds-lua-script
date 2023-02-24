@@ -22,7 +22,7 @@ function BoundingBoxes:display()
         centerY - h/2,
         w,
         h, 
-        self.BoundingBoxColors.background,
-        self.BoundingBoxColors.border
+        self.BoundingBoxColors.border,
+        self.BoundingBoxColors.background
     )
 end

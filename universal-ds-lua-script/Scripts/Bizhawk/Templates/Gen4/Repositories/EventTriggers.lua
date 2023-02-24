@@ -1,15 +1,15 @@
 EventTriggers = {
     talkTriggersColors = {
-        background = 0xFFFF0000,
-        border = 0xFFFF0000
+        border = 0x80FF00FF,
+        background = 0xFFFF00FF
     },
     warpTriggersColors = {
-        background = 0xFF00FF00,
-        border = 0xFF00FF00
+        border = 0x80FF0000,
+        background = 0xFFFF0000
     },
     walkTriggersColors = {
-        background = 0xFF0000FF,
-        border = 0xFF0000FF
+        border = 0x80FFFF00,
+        background = 0xFFFFFF00
     },
 }
 
