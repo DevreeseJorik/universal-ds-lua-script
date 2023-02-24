@@ -19,7 +19,7 @@ function TalkTrigger:new(runtime_id,x,z,unknown1,unknown2,obj)
     return obj
 end
 
-UnknownTrigger = {
+NPCSpawnTrigger = {
     x = 0,
     y = 0,
     z = 0
@@ -95,7 +95,7 @@ function EventTriggersData:new(offsetObjectReferences,obj)
     self.__index = self
     self.offsetObjectReferences = offsetObjectReferences
     self.talkTriggerSize = 0x14
-    self.unknownTriggerSize = 0x20 -- TODO: find size
+    self.NPCSpawnTriggerSize = 0x20 -- TODO: find size
     self.warpTriggerSize = 0xC
     self.walkTriggerSize = 0x10
     return obj
@@ -103,7 +103,7 @@ end
 
 function EventTriggersData:update()
     self:updateTalkTriggers()
-    self:updateUnknownTriggers()
+    self:updateNPCSpawnTriggers()
     self:updateWarpTriggers()
     self:updateWalkTriggers()
 end
@@ -131,19 +131,19 @@ function EventTriggersData:updateTalkTriggers()
     end
 end
 
-function EventTriggersData:updateNPCSPawnTriggers()
-    self.npcSpawnTriggersReferences = Memory.read_u32_le(MemoryState.base + self.offsetObjectReferences + MemoryState.memoryOffset + 0x34)
-    self.npcSpawnTriggers = {}
-    if self.npcSpawnTriggersReferences == 0 then
-        self.npcSpawnTriggerCount = 0
+function EventTriggersData:updateNPCSpawnTriggers()
+    self.NPCSpawnTriggersReferences = Memory.read_u32_le(MemoryState.base + self.offsetObjectReferences + MemoryState.memoryOffset + 0x34)
+    self.NPCSpawnTriggers = {}
+    if self.NPCSpawnTriggersReferences == 0 then
+        self.NPCSpawnTriggerCount = 0
         return
     end
 
-    self.npcSpawnTriggerCount = Memory.read_u32_le(self.npcSpawnTriggersReferences - 0x4)
+    self.NPCSpawnTriggerCount = Memory.read_u32_le(self.NPCSpawnTriggersReferences - 0x4)
 
-    self.npcSpawnTriggerMemory = Memory.read_bytes_as_array(self.npcSpawnTriggersReferences, self.npcSpawnTriggerCount * self.npcSpawnTriggerSize)
-    for i = 0, self.npcSpawnTriggerCount - 1 do
-        self.npcSpawnTriggers[i+1] = NPCSpawnTrigger:new(
+    self.NPCSpawnTriggerMemory = Memory.read_bytes_as_array(self.NPCSpawnTriggersReferences, self.NPCSpawnTriggerCount * self.NPCSpawnTriggerSize)
+    for i = 0, self.NPCSpawnTriggerCount - 1 do
+        self.NPCSpawnTriggers[i+1] = NPCSpawnTrigger:new(
             Memory:getByteRange(self.NPCSpawnTriggerMemory, i * self.NPCSpawnTriggerSize + 0x0, 0x4), -- unknown1
             Memory:getByteRange(self.NPCSpawnTriggerMemory, i * self.NPCSpawnTriggerSize + 0x4, 0x4), -- unknown2
             Memory:getByteRange(self.NPCSpawnTriggerMemory, i * self.NPCSpawnTriggerSize + 0x8, 0x4), -- unknown3
