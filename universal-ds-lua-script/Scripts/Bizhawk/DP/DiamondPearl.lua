@@ -57,6 +57,7 @@ function Game:main()
     PlayerData:update()
     ChunkData:update()
     MapData:update()
+    EventTriggers:update()
     ScriptData:update()
 
     Input:runChecks()
