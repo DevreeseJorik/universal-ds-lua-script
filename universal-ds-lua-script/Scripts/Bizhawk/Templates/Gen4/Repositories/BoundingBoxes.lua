@@ -12,7 +12,7 @@ function BoundingBoxes:new(o)
     return o
 end
 
-function BoundingBoxes:display()
+function BoundingBoxes:displayPlayer()
     local centerX = Display.left + Display.width/2
     local centerY = Display.height/2
     local w = 16
@@ -25,4 +25,9 @@ function BoundingBoxes:display()
         self.BoundingBoxColors.border,
         self.BoundingBoxColors.background
     )
+end
+
+function BoundingBoxes:display()
+    EventTriggers:display()
+    self:displayPlayer()
 end

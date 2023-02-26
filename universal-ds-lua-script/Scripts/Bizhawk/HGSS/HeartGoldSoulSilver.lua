@@ -65,7 +65,6 @@ function Game:main()
         LoadLines:display()
         Chunks:display()
         BoundingBoxes:display()
-        EventTriggers:display()
     end
     Chunks:showDrawCount()
 
