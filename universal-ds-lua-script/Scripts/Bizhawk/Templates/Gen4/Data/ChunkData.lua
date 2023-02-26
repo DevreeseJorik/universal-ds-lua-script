@@ -162,7 +162,8 @@ ChunkData = {
         },
     },
 
-    colorMappingLUT = {}
+    colorMappingLUT = {},
+    chunkDifference = 0x0
 }
 
 function ChunkData:new(offsetStartChunkData, o)
@@ -208,9 +209,13 @@ function ChunkData:update()
     self.loadedYPos = Memory.read_u16_le(self.startChunkData + 0xD2)
     self.loadedZPosSubpixel = Memory.read_u16_le(self.startChunkData + 0xD4)
     self.loadedZPos = Memory.read_u16_le(self.startChunkData + 0xD6)
-
-    self.correctTotalChunkOffset = self.loadedXPos + self.loadedZPos * 32 * self.chunkOffsetHeight
-    self.chunkDifference = bit.band(self.totalChunkOffset - self.correctTotalChunkOffset, 0xFFFF)
     
     self.isChunkLoading = ({[0] = true,[1] = false})[Memory.read_u8(self.startChunkData + 0xE4)]
+end
+
+-- This is a hacky way to get the correct chunk offset
+-- this is not called for HGSS
+function ChunkData:updatePseudo()
+    self.correctTotalChunkOffset = self.loadedXPos + self.loadedZPos * 32 * self.chunkOffsetHeight
+    self.chunkDifference = bit.band(self.totalChunkOffset - self.correctTotalChunkOffset, 0xFFFF)
 end
