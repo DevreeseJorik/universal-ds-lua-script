@@ -37,8 +37,10 @@ function EventTriggers:displayEventTriggers(table,x,y,z,colors)
     local trigger, x_trigger, y_trigger, z_trigger
     local w = 16
     local h = 14
-    local centerX = Display.left + Display.width/2 - w/2
-    local centerY = Display.height/2 - h/2
+    local foreshortenX = math.cos(math.rad(0))
+    local foreshortenY = math.sin(math.rad(60))
+    local centerX = Display.left + Display.width/2 - w/2 * foreshortenX
+    local centerY = Display.height/2 - h/2 * foreshortenY
 
     for i=1, #table do
         trigger = table[i]
@@ -46,10 +48,10 @@ function EventTriggers:displayEventTriggers(table,x,y,z,colors)
         z_trigger = trigger.z
 
         gui.drawRectangle(
-            centerX + (x_trigger - x)*w, 
-            centerY + (z_trigger - z)*h, 
-            w,
-            h, 
+            centerX + (x_trigger - x)*w*foreshortenX, 
+            centerY + (z_trigger - z)*h*foreshortenY, 
+            w*foreshortenX,
+            h*foreshortenY, 
             colors.background,
             colors.border
         )
@@ -62,8 +64,10 @@ function EventTriggers:displayWalkTriggers(table,x,y,z,colors)
     local trigger, x_trigger, y_trigger, z_trigger
     local w = 16
     local h = 14
-    local centerX = Display.left + Display.width/2 - w/2
-    local centerY = Display.height/2 - h/2
+    local foreshortenX = math.cos(math.rad(0))
+    local foreshortenY = math.sin(math.rad(60))
+    local centerX = Display.left + Display.width/2 - w/2 * foreshortenX
+    local centerY = Display.height/2 - h/2 * foreshortenY
 
     for i=1, #table do
         trigger = table[i]
@@ -74,15 +78,14 @@ function EventTriggers:displayWalkTriggers(table,x,y,z,colors)
         for j=0, numTriggersHorizontal-1 do
             for k=0, numTriggersVertical-1 do
                 gui.drawRectangle(
-                    centerX + (x_trigger - x)*w + j*w, 
-                    centerY + (z_trigger - z)*h + k*h, 
-                    w,
-                    h, 
+                    centerX + (x_trigger - x)*w*foreshortenX + j*w*foreshortenX,
+                    centerY + (z_trigger - z)*h*foreshortenY + k*h*foreshortenY, 
+                    w*foreshortenX,
+                    h*foreshortenY, 
                     colors.background,
                     colors.border
                 )
             end
         end
     end
-
 end
