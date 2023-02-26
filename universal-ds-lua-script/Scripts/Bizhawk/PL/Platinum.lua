@@ -33,6 +33,9 @@ function Game:importFiles()
     dofile(self.templateDir .. "/Data/MapData.lua")
     dofile(self.templateDir .. "/Repositories/Maps.lua")
 
+    dofile(self.templateDir .. "/Data/NPCData.lua")
+    dofile(self.templateDir .. "/Repositories/NPCs.lua")
+
     dofile(self.templateDir .. "/Data/EventTriggerData.lua")
     dofile(self.templateDir .. "/Repositories/EventTriggers.lua")
 
