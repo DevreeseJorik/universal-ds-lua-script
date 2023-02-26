@@ -13,5 +13,7 @@ keyBinds = {
     },
 
     keyConfigContinues = {
+        -- {keys = {"Ctrl","Left"}, func = function() CameraData:increaseMapOrbit() end},
+        -- {keys = {"Ctrl","Right"}, func = function() CameraData:decreaseMapOrbit() end},
     }
 }
