@@ -15,6 +15,8 @@ function Game:init()
     EventTriggersData = EventTriggersData:new(0x22AA4)
     EventTriggers = EventTriggers:new()
 
+    CameraData = CameraData:new(0x21800)
+
     Cheats = Cheats:new(self.language)
 end
 
@@ -35,6 +37,8 @@ function Game:importFiles()
     dofile(self.templateDir .. "/Repositories/EventTriggers.lua")
 
     dofile(self.templateDir .. "/repositories/BoundingBoxes.lua")
+
+    dofile(self.templateDir .. "/Data/CameraData.lua")
 
     dofile(self.templateDir .. "/Repositories/Movement.lua")
 
@@ -62,7 +66,6 @@ function Game:main()
         LoadLines:display()
         Chunks:display()
         BoundingBoxes:display()
-        EventTriggers:display()
     end
     Chunks:showDrawCount()
 
