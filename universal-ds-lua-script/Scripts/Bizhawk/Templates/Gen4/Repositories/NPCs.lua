@@ -1,0 +1,13 @@
+NPCs = {
+
+}
+
+function NPCs:new(o)
+    o = o or {}
+    setmetatable(o, self)
+    self.__index = self
+    return o
+end
+
+function NPCs:display()
+end
