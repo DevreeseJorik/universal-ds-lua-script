@@ -119,3 +119,17 @@ function Memory:getByteRange(table, index, size)
     end
     return value
 end
+
+function Memory:getByteRangeSigned(table, index, size)
+    local value = self:getByteRange(table, index, size)
+    if size == 2 then -- s16
+        if bit.band(value, 0x8000) ~= 0 then
+            value = -bit.band(bit.bnot(value), 0xFFFF) - 1
+        end
+    elseif size == 4 then -- s32
+        if bit.band(value, 0x80000000) ~= 0 then
+            value = -bit.band(bit.bnot(value), 0xFFFFFFFF) - 1
+        end
+    end
+    return value
+end
