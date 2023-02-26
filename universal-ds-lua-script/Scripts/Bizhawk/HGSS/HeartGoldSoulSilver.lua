@@ -13,6 +13,9 @@ function Game:init()
     MapData = MapData:new(0x24110)
     Maps = Maps:new(563) -- TODO: find out how many maps there are (563 is the number of maps in Platinum)
 
+    EventTriggersData = EventTriggersData:new(0x25114)
+    EventTriggers = EventTriggers:new()
+
     Cheats = Cheats:new(self.language)
 end
 
@@ -28,6 +31,12 @@ function Game:importFiles()
 
     dofile(self.templateDir .. "/Data/MapData.lua")
     dofile(self.dataDir .. "/MapData.lua") -- extend map data with color mapping for HGSS
+
+    dofile(self.templateDir .. "/Data/EventTriggerData.lua")
+    dofile(self.templateDir .. "/Repositories/EventTriggers.lua")
+
+    dofile(self.templateDir .. "/repositories/BoundingBoxes.lua")
+
     dofile(self.templateDir .. "/Repositories/Maps.lua")
     
     dofile(self.templateDir .. "/Repositories/Movement.lua")
@@ -46,6 +55,7 @@ function Game:main()
     PlayerData:update()
     ChunkData:update()
     MapData:update()
+    EventTriggersData:update()
     Input:runChecks()
 
     MemoryState:display()
@@ -54,6 +64,8 @@ function Game:main()
     if (updateFrame % 4 == 0) then
         LoadLines:display()
         Chunks:display()
+        BoundingBoxes:display()
+        EventTriggers:display()
     end
     Chunks:showDrawCount()
 
