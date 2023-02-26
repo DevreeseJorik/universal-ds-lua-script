@@ -192,7 +192,8 @@ function ChunkData:update()
     }
     self.totalChunkOffset = Memory.read_s32_le(self.startChunkData + 0xA8)
     self.chunkOffsetWidth = Memory.read_s32_le(self.startChunkData + 0xC0)
-    self.chunkOffsetHeight = Memory.read_s32_le(self.startChunkData + 0xC4)
+    self.chunkOffsetHeight = Memory.read_s32_le(self.startChunkData + 0xC4) 
+    if self.chunkOffsetHeight == 0 then self.chunkOffsetHeight = 1 end
     self.chunkOffsetX = self.totalChunkOffset % 32
     self.chunkOffsetZ = math.modf(self.totalChunkOffset / (32*self.chunkOffsetHeight)) % 32
 
