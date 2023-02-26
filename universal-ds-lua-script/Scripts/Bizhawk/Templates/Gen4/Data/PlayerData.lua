@@ -32,18 +32,18 @@ function PlayerData:update()
     self.zFinal = Memory:getByteRange(playerMemory, 0x80, 0x4)
 
     -- coords for interacting with terain/collision + position in ram
-    self.xPhysical= Memory:getByteRange(playerMemory, 0x84, 0x4)
-    self.yPhysical= Memory:getByteRange(playerMemory, 0x88, 0x4)
-    self.zPhysical= Memory:getByteRange(playerMemory, 0x8C, 0x4)
+    self.xPhysical= Memory:getByteRangeSigned(playerMemory, 0x84, 0x4)
+    self.yPhysical= Memory:getByteRangeSigned(playerMemory, 0x88, 0x4)
+    self.zPhysical= Memory:getByteRangeSigned(playerMemory, 0x8C, 0x4)
 
     -- coords used for camera position
     -- has subpixel precision
-    self.xCamSubpixel = Memory:getByteRange(playerMemory, 0x90, 0x2)
-    self.xCam = Memory:getByteRange(playerMemory, 0x92, 0x2)
-    self.yCamSxCamSubpixel = Memory:getByteRange(playerMemory, 0x94, 0x2)
-    self.yCam = Memory:getByteRange(playerMemory, 0x96, 0x2)
-    self.zCamSxCamSubpixel = Memory:getByteRange(playerMemory, 0x98, 0x2)
-    self.zCam = Memory:getByteRange(playerMemory, 0x9A, 0x2)
+    self.xCamSubpixel = Memory:getByteRangeSigned(playerMemory, 0x90, 0x2)
+    self.xCam = Memory:getByteRangeSigned(playerMemory, 0x92, 0x2)
+    self.yCamSxCamSubpixel = Memory:getByteRangeSigned(playerMemory, 0x94, 0x2)
+    self.yCam = Memory:getByteRangeSigned(playerMemory, 0x96, 0x2)
+    self.zCamSxCamSubpixel = Memory:getByteRangeSigned(playerMemory, 0x98, 0x2)
+    self.zCam = Memory:getByteRangeSigned(playerMemory, 0x9A, 0x2)
 
     self.tileId1 = Memory:getByteRange(playerMemory, 0xCC, 0x2)
     self.tileId2 = Memory:getByteRange(playerMemory, 0xCE, 0x2)
