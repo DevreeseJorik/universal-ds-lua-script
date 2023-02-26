@@ -41,15 +41,15 @@ function NPC:new(obj)
 end
 
 NPCData = {
-    NPCSize = 0x128
 }
 
-function NPCData:new(offsetObjectData,offsetNPCData,o)
+function NPCData:new(offsetObjectData,offsetNPCData,NPCSize,o)
     local o = o or {}
     setmetatable(o, self)
     self.__index = self
     self.offsetObjectData = offsetObjectData
     self.offsetNPCData = offsetNPCData
+    self.NPCSize = NPCSize or 0x128
     return o
 end
 
