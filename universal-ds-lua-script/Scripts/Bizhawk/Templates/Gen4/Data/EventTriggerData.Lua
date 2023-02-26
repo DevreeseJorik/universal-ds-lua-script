@@ -89,11 +89,11 @@ EventTriggersData = {
 
 }
 
-function EventTriggersData:new(offsetObjectReferences,obj)
+function EventTriggersData:new(offsetTriggers,obj)
     obj = obj or {}
     setmetatable(obj, self)
     self.__index = self
-    self.offsetObjectReferences = offsetObjectReferences
+    self.offsetTriggers = offsetTriggers
     self.talkTriggerSize = 0x14
     self.NPCSpawnTriggerSize = 0x20 -- TODO: find size
     self.warpTriggerSize = 0xC
@@ -109,9 +109,9 @@ function EventTriggersData:update()
 end
 
 function EventTriggersData:updateTalkTriggers()
-    self.talkTriggersReferences = Memory.read_u32_le(MemoryState.base + self.offsetObjectReferences + MemoryState.memoryOffset + 0x30)
+    self.talkTriggersReferences = Memory.read_u32_le(MemoryState.base + self.offsetTriggers + MemoryState.memoryOffset + 0x30)
     self.talkTriggers = {}
-    if self.talkTriggersReferences == 0 then
+    if not Utility:isPointer(self.talkTriggersReferences) then
         self.talkTriggerCount = 0
         return
     end
@@ -132,9 +132,9 @@ function EventTriggersData:updateTalkTriggers()
 end
 
 function EventTriggersData:updateNPCSpawnTriggers()
-    self.NPCSpawnTriggersReferences = Memory.read_u32_le(MemoryState.base + self.offsetObjectReferences + MemoryState.memoryOffset + 0x34)
+    self.NPCSpawnTriggersReferences = Memory.read_u32_le(MemoryState.base + self.offsetTriggers + MemoryState.memoryOffset + 0x34)
     self.NPCSpawnTriggers = {}
-    if self.NPCSpawnTriggersReferences == 0 then
+    if not Utility:isPointer(self.NPCSpawnTriggersReferences) then
         self.NPCSpawnTriggerCount = 0
         return
     end
@@ -157,9 +157,9 @@ function EventTriggersData:updateNPCSpawnTriggers()
 end
 
 function EventTriggersData:updateWarpTriggers()
-    self.warpTriggersReferences = Memory.read_u32_le(MemoryState.base + self.offsetObjectReferences + MemoryState.memoryOffset + 0x38)
+    self.warpTriggersReferences = Memory.read_u32_le(MemoryState.base + self.offsetTriggers + MemoryState.memoryOffset + 0x38)
     self.warpTriggers = {}
-    if self.warpTriggersReferences == 0 then
+    if not Utility:isPointer(self.warpTriggersReferences) then
         self.warpTriggerCount = 0
         return
     end
@@ -179,9 +179,9 @@ function EventTriggersData:updateWarpTriggers()
 end
 
 function EventTriggersData:updateWalkTriggers()
-    self.walkTriggersReferences = Memory.read_u32_le(MemoryState.base + self.offsetObjectReferences + MemoryState.memoryOffset + 0x3C)
+    self.walkTriggersReferences = Memory.read_u32_le(MemoryState.base + self.offsetTriggers + MemoryState.memoryOffset + 0x3C)
     self.walkTriggers = {}
-    if self.walkTriggersReferences == 0 then
+    if not Utility:isPointer(self.walkTriggersReferences) then
         self.walkTriggerCount = 0
         return
     end
