@@ -1,5 +1,8 @@
 NPCs = {
-
+    npcsColors = {
+        background = 0x800000FF,
+        border = 0xFF0000FF
+    }
 }
 
 function NPCs:new(o)
@@ -10,4 +13,8 @@ function NPCs:new(o)
 end
 
 function NPCs:display()
+    local xCam = PlayerData.xCam
+    local yCam = PlayerData.yCam
+    local zCam = PlayerData.zCam
+    BoundingBoxes:displayObjects(NPCData.NPCs,xCam,yCam,zCam,self.npcsColors)
 end
