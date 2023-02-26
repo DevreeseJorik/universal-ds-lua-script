@@ -153,9 +153,8 @@ function Chunks:displayPlayerPosition()
     local w,h = 3,3
     local color = 0xFF7700CC
     local colorBorder = 0xFFAA00FF
-    local NPCstruct = PlayerData.NPCstruct
-    local x = NPCstruct.xPhysical
-    local z = NPCstruct.zPhysical
+    local x = PlayerData.xPhysical
+    local z = PlayerData.zPhysical
     local chunkX = math.floor(x%32)
     local chunkZ = math.floor(z%32)
     local chunkId = ChunkData.currentChunk

@@ -21,10 +21,9 @@ function EventTriggers:new(o)
 end
 
 function EventTriggers:display()
-    local NPCstruct = PlayerData.NPCstruct
-    local xCam = NPCstruct.xCam
-    local yCam = NPCstruct.yCam
-    local zCam = NPCstruct.zCam
+    local xCam = PlayerData.xCam
+    local yCam = PlayerData.yCam
+    local zCam = PlayerData.zCam
     local table = EventTriggersData.talkTriggers
     self:displayEventTriggers(table,xCam,yCam,zCam,self.talkTriggersColors)
     table = EventTriggersData.warpTriggers

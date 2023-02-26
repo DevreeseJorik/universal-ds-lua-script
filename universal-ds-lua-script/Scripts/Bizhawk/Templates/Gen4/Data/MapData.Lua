@@ -84,8 +84,8 @@ function MapData:update()
     self.matrixCenterAddress = self.startMatrixData + 0x56
     
     self.currentMatrixOffsets = {
-        x = math.modf(PlayerData.NPCstruct.xPhysical / 32) * 2,
-        y = math.modf(PlayerData.NPCstruct.zPhysical / 32) * 2 * self.matrixHeight 
+        x = math.modf(PlayerData.xPhysical / 32) * 2,
+        y = math.modf(PlayerData.zPhysical / 32) * 2 * self.matrixHeight 
     }
 
     self.currentMatrixAddr = self.matrixCenterAddress + self.currentMatrixOffsets.x + self.currentMatrixOffsets.y
