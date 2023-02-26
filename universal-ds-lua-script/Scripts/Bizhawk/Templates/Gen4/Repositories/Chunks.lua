@@ -30,6 +30,12 @@ end
 function Chunks:loadChunk(chunkId)
     local addr = ChunkData.startChunks[chunkId+1]
     if addr == 0 then self.isChunkLoaded = false return end
+    -- print()
+    -- print("chunkId: " .. chunkId)
+    -- print("addr1: " .. addr)
+    -- print("chunkXDifference: " .. ChunkData.chunkXDifference)
+    -- print("chunkZDifference: " .. ChunkData.chunkZDifference)
+    addr = addr - ChunkData.chunkDifference * 2
     self.chunks[chunkId] = Memory.read_bytes_as_array(addr,2048)
     self.isChunkLoaded = true
 end

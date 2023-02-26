@@ -190,12 +190,15 @@ function ChunkData:update()
         Memory.read_u32_le(self.startChunkData + 0x98),
         Memory.read_u32_le(self.startChunkData + 0x9C)
     }
+
     self.totalChunkOffset = Memory.read_s32_le(self.startChunkData + 0xA8)
     self.chunkOffsetWidth = Memory.read_s32_le(self.startChunkData + 0xC0)
     self.chunkOffsetHeight = Memory.read_s32_le(self.startChunkData + 0xC4) 
     if self.chunkOffsetHeight == 0 then self.chunkOffsetHeight = 1 end
-    self.chunkOffsetX = self.totalChunkOffset % 32
-    self.chunkOffsetZ = math.modf(self.totalChunkOffset / (32*self.chunkOffsetHeight)) % 32
+
+    self.chunkOffsetX = self.totalChunkOffset % (32*self.chunkOffsetHeight)
+    self.chunkOffsetZ = math.floor(self.totalChunkOffset / (32*self.chunkOffsetHeight))
+
 
     self.currentChunk = Memory.read_u8(self.startChunkData + 0xAC)
     self.currentSubChunk = Memory.read_u8(self.startChunkData + 0xAD)
@@ -206,5 +209,8 @@ function ChunkData:update()
     self.loadedZPosSubpixel = Memory.read_u16_le(self.startChunkData + 0xD4)
     self.loadedZPos = Memory.read_u16_le(self.startChunkData + 0xD6)
 
+    self.correctTotalChunkOffset = self.loadedXPos + self.loadedZPos * 32 * self.chunkOffsetHeight
+    self.chunkDifference = bit.band(self.totalChunkOffset - self.correctTotalChunkOffset, 0xFFFF)
+    
     self.isChunkLoading = ({[0] = true,[1] = false})[Memory.read_u8(self.startChunkData + 0xE4)]
 end
