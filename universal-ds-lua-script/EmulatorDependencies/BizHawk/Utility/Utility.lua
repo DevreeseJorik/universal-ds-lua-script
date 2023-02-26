@@ -16,3 +16,8 @@ function Utility:isHeader(addr)
 	local headerValue = Memory.read_u16_le(addr)
 	return (headerValue == 0x5544) or (headerValue == 0x4652)
 end 
+
+function Utility:convertFloatPosition(pos, subpixel)
+    local subpixelFloat = subpixel / 0x10000
+    return pos + subpixelFloat
+  end
