@@ -3,15 +3,15 @@ MemoryState = {
     gameplayState,
     memoryOffset,
     staticAddresses = {
-        ug_init_addr = 0x2250E86
+        ugInitAddress = 0x2250E86
     },
     offsets = {
-        memorystate_check = 0x22A00,
+        memorystateCheck = 0x22A00,
         
     },
     values = {
-        ug_init_val = 0x1F,
-        memorystate_check_value = 0x2C9EC
+        ugInitValue = 0x1F,
+        memorystateCheckValue = 0x2C9EC
     }
 }
 
@@ -25,8 +25,8 @@ function MemoryState:new(savedDataPointerReference, savedDataPointerOffset, o)
 end
 
 function MemoryState:setMemoryState(base)
-	if Memory.read_u32_le(base + self.offsets["memorystate_check"]) == (base + self.values["memorystate_check_value"]) then -- check for ug/bt ptr
-		if Memory.read_s8(self.staticAddresses["ug_init_addr"]) == self.values["ug_init_val"] then
+	if Memory.read_u32_le(base + self.offsets["memorystateCheck"]) == (base + self.values["memorystateCheckValue"]) then -- check for ug/bt ptr
+		if Memory.read_s8(self.staticAddresses["ugInitAddress"]) == self.values["ugInitValue"] then
             self.gameplayState = "Underground"
             self.memoryOffset = 0x8124
 			return

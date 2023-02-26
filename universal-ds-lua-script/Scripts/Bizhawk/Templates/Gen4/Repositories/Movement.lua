@@ -12,20 +12,20 @@ end
 
 function Movement:display()
     local NPCstruct = PlayerData.NPCstruct
-    gui.text((Display.rightScreen + 200)*2, 10, "x_phys_32: " .. NPCstruct.x_phys_32)
-    gui.text((Display.rightScreen + 200)*2, 30, "x_cam_16: " .. NPCstruct.x_cam_16)
-    gui.text((Display.rightScreen + 200)*2, 50, "z_phys_32: " .. NPCstruct.z_phys_32)
-    gui.text((Display.rightScreen + 200)*2, 70, "z_cam_16: " .. NPCstruct.z_cam_16)
+    gui.text((Display.rightScreen + 200)*2, 10, "xPhysical: " .. NPCstruct.xPhysical)
+    gui.text((Display.rightScreen + 200)*2, 30, "xCam: " .. NPCstruct.xCam)
+    gui.text((Display.rightScreen + 200)*2, 50, "zPhysical: " .. NPCstruct.zPhysical)
+    gui.text((Display.rightScreen + 200)*2, 70, "zCam: " .. NPCstruct.zCam)
 end
 
 function Movement:teleportXZ(xDiff,zDiff) -- not changing player height
     local NPCstruct = PlayerData.NPCstruct
     local startNPCstruct = PlayerData.startNPCstruct
-    Memory:write_s32_le(startNPCstruct + 0x84, NPCstruct.x_phys_32 + xDiff)
-    Memory:write_s16_le(startNPCstruct + 0x92, NPCstruct.x_cam_16 + xDiff)
+    Memory:write_s32_le(startNPCstruct + 0x84, NPCstruct.xPhysical + xDiff)
+    Memory:write_s16_le(startNPCstruct + 0x92, NPCstruct.xCam + xDiff)
 
-    Memory:write_s32_le(startNPCstruct + 0x8C, NPCstruct.z_phys_32 + zDiff)
-    Memory:write_s16_le(startNPCstruct + 0x9A, NPCstruct.z_cam_16 + zDiff)
+    Memory:write_s32_le(startNPCstruct + 0x8C, NPCstruct.zPhysical + zDiff)
+    Memory:write_s16_le(startNPCstruct + 0x9A, NPCstruct.zCam + zDiff)
 end
 
 function Movement:teleportLeft()

@@ -8,7 +8,7 @@ ChunkData = {
             color = 0xFF2AA615,
             ids = {0x2,0x7B}
         },
-        tall_grass = {
+        tallGrass = {
             color = 0xFF2F654A,
             ids = {0x3}	
         },
@@ -32,15 +32,15 @@ ChunkData = {
             color = 0xFFE3B820,
             ids = {0x21,0x21}
         },
-        deep_snow1 = {
+        deepSnow1 = {
             color = 0xFF8DA9CB,
             ids = {0xA1}
         },
-        deep_snow2 = {
+        deepSnow2 = {
             color = 0xFF6483A7,
             ids = {0xA2}
         },
-        deep_snow3 = {
+        deepSnow3 = {
             color = 0xFF52749D,
             ids = {0xA3}
         },
@@ -48,15 +48,15 @@ ChunkData = {
             color = 0xFF928970,
             ids = {0xA4}
         },
-        mud_block = {
+        mudBlock = {
             color = 0xFF927040,
             ids = {0xA5}
         },
-        mud_grass = {
+        mudGrass = {
             color = 0xFF409000,
             ids = {0xA6}
         },
-        mud_grass_block = {
+        mudGrassBlock = {
             color = 0xFF559060,
             ids = {0xA7}
         },
@@ -64,11 +64,11 @@ ChunkData = {
             color = 0xFFB9D0EB,
             ids = {0xA8}
         },
-        misc_obj = {
+        misc = {
             color = 0xFFFFFFFF,
             ids = {0xE5,0X8E,0X8f}
         },
-        spin_tile = {
+        spinTile = {
             color = 0xFFFFD000,
             ids = {0x40,0x41,0x42,0x43}
         },
@@ -76,27 +76,27 @@ ChunkData = {
             color = 0xFF56B3E0,
             ids = {0x20,0x20}
         },
-        ice_stair = {
+        iceStair = {
             color = 0xFFFFD000,
             ids = {0x49,0x4A}
         },
-        circle_warp = {
+        circleWarp = {
             color = 0xFFA0A000,
             ids = {0x67}
         },
-        model_fl = {
+        modelFl = {
             color = 0xFFAFB000,
-           ids = {0x56,0x57,0x58,} 
+           ids = {0x56,0x57,0x58} 
         },
-        model_floor = {
+        modelFloor = {
             color = 0xFFA090F0,
            ids = {0x59}
         },
-        special_collision = {
+        specialCollision = {
             color = 0xFFA090F0,
            ids = {0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37}
         },
-        bike_stall = {
+        bikeStall = {
             color = 0xFF0690A0,
            ids = {0xDB}
         },
@@ -124,7 +124,7 @@ ChunkData = {
             color = 0xFF06B040,
            ids = {0xE4}
         },
-        haunted_house = {
+        hauntedHouse = {
             color = 0xFFA292BC,
             ids = {0xB}
         },
@@ -132,7 +132,7 @@ ChunkData = {
             color = 0xFFD3A000,
             ids = {0x38,0x39,0x3A,0x3B,0x3C,0x3D,0x3E,0x3F}
         },
-        rock_climb = {
+        rockClimb = {
             color = 0xFFC76000,
             ids = {0x4B,0x4C}
         },
@@ -140,11 +140,11 @@ ChunkData = {
             color = 0xFFC79000,
             ids = {0x71,0x72,0x73,0x74,0x75}
         },
-        start_bridge = {
+        startBridge = {
             color= 0xC7B000, 
             ids = {0x70}
         },
-        bike_bridge = {
+        bikeBridge = {
             color = 0xFFC7A55,
             ids = {0x76,0x77,0x78,0x79,0x7A,0x7D}
         },
@@ -152,11 +152,11 @@ ChunkData = {
             color = 0xFFB27030,
             ids = {0xA0}
         },
-        bike_ramp = {
+        bikeRamp = {
             color = 0xFFB89000,
             ids = {0xD7,0xD8}
         },
-        quick_sand = {
+        quickSand = {
             color = 0xFFA88000,
             ids = {0xD9,0xDA}
         },

@@ -22,19 +22,19 @@ end
 
 function EventTriggers:display()
     local NPCstruct = PlayerData.NPCstruct
-    local x_cam = NPCstruct.x_cam_16
-    local y_cam = NPCstruct.y_cam_16
-    local z_cam = NPCstruct.z_cam_16
+    local xCam = NPCstruct.xCam
+    local yCam = NPCstruct.yCam
+    local zCam = NPCstruct.zCam
     local table = EventTriggersData.talkTriggers
-    self:displayEventTriggers(table,x_cam,y_cam,z_cam,self.talkTriggersColors)
+    self:displayEventTriggers(table,xCam,yCam,zCam,self.talkTriggersColors)
     table = EventTriggersData.warpTriggers
-    self:displayEventTriggers(table,x_cam,y_cam,z_cam,self.warpTriggersColors)
+    self:displayEventTriggers(table,xCam,yCam,zCam,self.warpTriggersColors)
     table = EventTriggersData.walkTriggers
-    self:displayWalkTriggers(table,x_cam,y_cam,z_cam,self.walkTriggersColors)
+    self:displayWalkTriggers(table,xCam,yCam,zCam,self.walkTriggersColors)
 end
 
 function EventTriggers:displayEventTriggers(table,x,y,z,colors)
-    local trigger, x_trigger, y_trigger, z_trigger
+    local trigger, xTrigger, yTrigger, zTrigger
     local w = 16
     local h = 14
     local foreshortenX = math.cos(math.rad(0))
@@ -44,12 +44,12 @@ function EventTriggers:displayEventTriggers(table,x,y,z,colors)
 
     for i=1, #table do
         trigger = table[i]
-        x_trigger = trigger.x
-        z_trigger = trigger.z
+        xTrigger = trigger.x
+        zTrigger = trigger.z
 
         gui.drawRectangle(
-            centerX + (x_trigger - x)*w*foreshortenX, 
-            centerY + (z_trigger - z)*h*foreshortenY, 
+            centerX + (xTrigger - x)*w*foreshortenX, 
+            centerY + (zTrigger - z)*h*foreshortenY, 
             w*foreshortenX,
             h*foreshortenY, 
             colors.background,
@@ -61,7 +61,7 @@ end
 
 
 function EventTriggers:displayWalkTriggers(table,x,y,z,colors)
-    local trigger, x_trigger, y_trigger, z_trigger
+    local trigger, xTrigger, yTrigger, zTrigger
     local w = 16
     local h = 14
     local foreshortenX = math.cos(math.rad(0))
@@ -71,15 +71,15 @@ function EventTriggers:displayWalkTriggers(table,x,y,z,colors)
 
     for i=1, #table do
         trigger = table[i]
-        x_trigger = trigger.x
-        z_trigger = trigger.z
+        xTrigger = trigger.x
+        zTrigger = trigger.z
         numTriggersHorizontal = trigger.numTriggersHorizontal
         numTriggersVertical = trigger.numTriggersVertical
         for j=0, numTriggersHorizontal-1 do
             for k=0, numTriggersVertical-1 do
                 gui.drawRectangle(
-                    centerX + (x_trigger - x)*w*foreshortenX + j*w*foreshortenX,
-                    centerY + (z_trigger - z)*h*foreshortenY + k*h*foreshortenY, 
+                    centerX + (xTrigger - x)*w*foreshortenX + j*w*foreshortenX,
+                    centerY + (zTrigger - z)*h*foreshortenY + k*h*foreshortenY, 
                     w*foreshortenX,
                     h*foreshortenY, 
                     colors.background,

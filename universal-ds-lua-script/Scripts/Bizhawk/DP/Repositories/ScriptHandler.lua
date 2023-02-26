@@ -131,7 +131,7 @@ end
 function ScriptHandler:isValidJump(scriptCommand,flag)
     if (scriptCommand == 0x16 or scriptCommand == 0x1A) then return true end
     if (scriptCommand == 0x1C or scriptCommand == 0x1D) and (flag == 0x0 or flag == 0x3 or flag == 0x5) then return true end
-    if (scriptCommand == 0x19) and (flag == PlayerData.NPCstruct.facing_dir_32) then return true end
+    if (scriptCommand == 0x19) and (flag == PlayerData.NPCstruct.facingDirection) then return true end
     return false
 end
 

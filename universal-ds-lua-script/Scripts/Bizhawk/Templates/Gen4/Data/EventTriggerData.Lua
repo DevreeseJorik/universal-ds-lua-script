@@ -1,5 +1,5 @@
 TalkTrigger = {
-    runtime_id = 0,
+    eventId = 0,
     x = 0,
     y = 0,
     z = 0,
@@ -7,11 +7,11 @@ TalkTrigger = {
     unknown2 = 0
 }
 
-function TalkTrigger:new(runtime_id,x,z,unknown1,unknown2,obj)
+function TalkTrigger:new(eventId,x,z,unknown1,unknown2,obj)
     obj = obj or {}
     setmetatable(obj, self)
     obj.__index = self
-    obj.runtime_id = runtime_id
+    obj.eventId = eventId
     obj.x = x
     obj.z = z
     obj.unknown1 = unknown1
@@ -103,7 +103,7 @@ end
 
 function EventTriggersData:update()
     self:updateTalkTriggers()
-    self:updateNPCSpawnTriggers()
+    --self:updateNPCSpawnTriggers() -- We will be displaying the current position, not the spawn position
     self:updateWarpTriggers()
     self:updateWalkTriggers()
 end

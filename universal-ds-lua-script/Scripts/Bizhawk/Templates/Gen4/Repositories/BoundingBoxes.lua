@@ -28,6 +28,7 @@ function BoundingBoxes:displayPlayer()
 end
 
 function BoundingBoxes:display()
+    NPCs:display()
     EventTriggers:display()
     self:displayPlayer()
 end

@@ -20,13 +20,13 @@ end
 
 function CameraData:getCameraOrbit(offset)
     local cameraOrbit = {}
-    cameraOrbit.x_subpixel = Memory:getByteRange(self.cameraData, offset, 2)
+    cameraOrbit.xSubpixel = Memory:getByteRange(self.cameraData, offset, 2)
     cameraOrbit.x = Memory:getByteRange(self.cameraData, offset + 0x2, 2)
 
-    cameraOrbit.y_subpixel = Memory:getByteRange(self.cameraData, offset + 0x4, 2)
+    cameraOrbit.ySubpixel = Memory:getByteRange(self.cameraData, offset + 0x4, 2)
     cameraOrbit.y = Memory:getByteRange(self.cameraData, offset + 0x6, 2)
 
-    cameraOrbit.z_subpixel = Memory:getByteRange(self.cameraData, offset + 0x8, 2)
+    cameraOrbit.zSubpixel = Memory:getByteRange(self.cameraData, offset + 0x8, 2)
     cameraOrbit.z = Memory:getByteRange(self.cameraData, offset + 0xA, 2)
     return cameraOrbit
 end

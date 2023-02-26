@@ -5,8 +5,8 @@ Parser = {
 -- TODO: modify this so values of type "number" and "bool" are not converted to strings.
 function Parser.encode(tbl)
     local str = ""
-    if Parser.is_numeric(tbl) then
-        return Parser.encode_numeric(tbl)
+    if Parser.isNumeric(tbl) then
+        return Parser.encodeNumeric(tbl)
     else
         for k, v in pairs(tbl) do
             local key = '"' .. k .. '"'
@@ -24,14 +24,14 @@ function Parser.encode(tbl)
     end
 end
 
-function Parser.encode_numeric(tbl)
+function Parser.encodeNumeric(tbl)
     local str = ""
-    local start_index = 1
-    local end_index = #tbl
+    local startId = 1
+    local endId = #tbl
     if tbl[0] ~= nil then
-        start_index = 0
+        startId = 0
     end
-    for i = start_index, end_index do
+    for i = startId, endId do
         local v = tbl[i]
         if type(v) == "table" then
             str = str .. Parser.encode(v) .. ","
@@ -47,7 +47,7 @@ function Parser.encode_numeric(tbl)
 end
 
 
-function Parser.is_numeric(tbl)
+function Parser.isNumeric(tbl)
     for k, v in pairs(tbl) do
         if (type(k) ~= "number") then
             return false
