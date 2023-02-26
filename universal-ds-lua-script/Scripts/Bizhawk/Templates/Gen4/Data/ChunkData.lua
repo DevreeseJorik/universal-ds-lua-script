@@ -197,7 +197,7 @@ function ChunkData:update()
     self.loadedXPos = Memory.read_u16_le(self.startChunkData + 0xCE)
     self.loadedYPosSubpixel = Memory.read_u16_le(self.startChunkData + 0xD0)
     self.loadedYPos = Memory.read_u16_le(self.startChunkData + 0xD2)
-    self.loadedZosSubpixel = Memory.read_u16_le(self.startChunkData + 0xD4)
+    self.loadedZPosSubpixel = Memory.read_u16_le(self.startChunkData + 0xD4)
     self.loadedZPos = Memory.read_u16_le(self.startChunkData + 0xD6)
 
     self.isChunkLoading = ({[0] = true,[1] = false})[Memory.read_u8(self.startChunkData + 0xE4)]
