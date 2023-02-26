@@ -33,8 +33,8 @@ function LoadLines:toggleGridLines()
 end
 
 function LoadLines:displayLoadLines()
-    local relativePosX = 16 - PlayerData.xCam%32
-    local relativePosY = 16 - PlayerData.zCam%32
+    local relativePosX = 16 - ChunkData.chunkOffsetX
+    local relativePosY = 16 - ChunkData.chunkOffsetZ
     local x = relativePosX*16-8
     local y = relativePosY*13-8
     Display:drawLineCenteredIfWithinBounds(relativePosX*16-8,0,0,Display.height,self.loadLineColor,1,0)
@@ -49,8 +49,8 @@ function LoadLines:displayMapLines()
 end 
 
 function LoadLines:displayChunkLines()
-    local relativePosX = 16 - (PlayerData.xCam-16)%32
-    local relativePosY = 16 - (PlayerData.zCam-16)%32
+    local relativePosX = 16 - ChunkData.chunkOffsetX
+    local relativePosY = 16 - ChunkData.chunkOffsetZ
     Display:drawLineCenteredIfWithinBounds(relativePosX*16-8,0,0,Display.height,self.chunkLineColor,1,0)
     Display:drawLineCenteredIfWithinBounds(0,relativePosY*13-8,Display.width,0,self.chunkLineColor,0,1,1,0)
 end 

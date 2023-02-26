@@ -190,7 +190,9 @@ function ChunkData:update()
         Memory.read_u32_le(self.startChunkData + 0x98),
         Memory.read_u32_le(self.startChunkData + 0x9C)
     }
-
+    self.totalChunkOffset = Memory.read_s32_le(self.startChunkData + 0xA8)
+    self.chunkOffsetX = self.totalChunkOffset % 32
+    self.chunkOffsetZ = math.modf(self.totalChunkOffset / 32)
     self.currentChunk = Memory.read_u8(self.startChunkData + 0xAC)
     self.currentSubChunk = Memory.read_u8(self.startChunkData + 0xAD)
     self.loadedXPosSubpixel = Memory.read_u16_le(self.startChunkData + 0xCC)
