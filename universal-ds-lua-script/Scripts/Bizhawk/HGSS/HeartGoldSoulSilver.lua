@@ -13,6 +13,9 @@ function Game:init()
     MapData = MapData:new(0x24110)
     Maps = Maps:new(563) -- TODO: find out how many maps there are (563 is the number of maps in Platinum)
 
+    NPCData = NPCData:new(0x25BC8,0x25FD8,0x12C)
+    NPCs = NPCs:new()
+
     EventTriggersData = EventTriggersData:new(0x25114)
     EventTriggers = EventTriggers:new()
 
@@ -65,6 +68,7 @@ function Game:main()
     Maps:display()
 
     if (updateFrame % 4 == 0) then
+        NPCData:update()
         LoadLines:display()
         Chunks:display()
         BoundingBoxes:display()
