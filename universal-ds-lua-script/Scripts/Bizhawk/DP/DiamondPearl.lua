@@ -12,6 +12,9 @@ function Game:init()
     MapData = MapData:new(0x22A84)
     Maps = Maps:new(558)
 
+    NPCData = NPCData:new(0x2487C,0x24B5C)
+    NPCs = NPCs:new()
+
     EventTriggersData = EventTriggersData:new(0x23C80)
     EventTriggers = EventTriggers:new()
 
@@ -76,6 +79,7 @@ function Game:main()
     ScriptHandler:display()
 
     if (updateFrame % 4 == 0) then
+        NPCData:update()
         LoadLines:display()
         Chunks:display()
         BoundingBoxes:display()
