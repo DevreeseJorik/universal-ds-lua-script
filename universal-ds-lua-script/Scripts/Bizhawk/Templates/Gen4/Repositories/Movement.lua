@@ -1,5 +1,5 @@
 Movement = {
-    teleportAmount = 65536
+    teleportAmount = 32
 
 }
 
