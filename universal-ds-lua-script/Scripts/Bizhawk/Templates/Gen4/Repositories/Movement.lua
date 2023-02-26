@@ -1,5 +1,5 @@
 Movement = {
-    teleportAmount = 32
+    teleportAmount = 65536
 
 }
 
@@ -18,10 +18,12 @@ function Movement:display()
     gui.text((Display.rightScreen + 200)*2, 70, "zCam: " .. PlayerData.zCam)
     
     -- chunk native position
-    gui.text((Display.rightScreen + 200)*2, 90, "chunkOffsetX: " .. ChunkData.chunkOffsetX)
-    gui.text((Display.rightScreen + 200)*2, 110, "chunkOffsetZ: " .. ChunkData.chunkOffsetZ)
+    gui.text((Display.rightScreen + 200)*2, 90, "chunkX: " .. ChunkData.chunkOffsetX)
+    gui.text((Display.rightScreen + 200)*2, 110, "chunkZ: " .. ChunkData.chunkOffsetZ)
+    gui.text((Display.rightScreen + 200)*2, 130, "total: " .. ChunkData.totalChunkOffset)
 
-    gui.text((Display.rightScreen + 200)*2, 130, "chunkData: 0x" .. Utility:format(ChunkData.startChunkData, 7))
+    -- gui.text((Display.rightScreen + 200)*2, 150, "chunkData: 0x" .. Utility:format(ChunkData.startChunkData, 7))
+    -- gui.text((Display.rightScreen + 200)*2, 170, "chunkDiff: 0x" .. Utility:format(ChunkData.chunkDifference, 7))
 end
 
 function Movement:teleportXZ(xDiff,zDiff) -- not changing player height
