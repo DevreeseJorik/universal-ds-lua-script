@@ -183,7 +183,7 @@ end
 function ChunkData:update()
     if MemoryState.gameplayState == not "Overworld" then return end
     self.startChunkData = Memory.read_u32_le(MemoryState.base + self.offsetStartChunkData)
-
+    
     self.startChunks = {
         Memory.read_u32_le(self.startChunkData + 0x90),
         Memory.read_u32_le(self.startChunkData + 0x94),
@@ -191,8 +191,11 @@ function ChunkData:update()
         Memory.read_u32_le(self.startChunkData + 0x9C)
     }
     self.totalChunkOffset = Memory.read_s32_le(self.startChunkData + 0xA8)
+    self.chunkOffsetWidth = Memory.read_s32_le(self.startChunkData + 0xC0)
+    self.chunkOffsetHeight = Memory.read_s32_le(self.startChunkData + 0xC4)
     self.chunkOffsetX = self.totalChunkOffset % 32
-    self.chunkOffsetZ = math.modf(self.totalChunkOffset / 32)
+    self.chunkOffsetZ = math.modf(self.totalChunkOffset / (32*self.chunkOffsetHeight)) % 32
+
     self.currentChunk = Memory.read_u8(self.startChunkData + 0xAC)
     self.currentSubChunk = Memory.read_u8(self.startChunkData + 0xAD)
     self.loadedXPosSubpixel = Memory.read_u16_le(self.startChunkData + 0xCC)

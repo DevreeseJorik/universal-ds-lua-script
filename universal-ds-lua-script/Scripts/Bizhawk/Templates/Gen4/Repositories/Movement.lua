@@ -11,10 +11,17 @@ function Movement:new()
 end
 
 function Movement:display()
+    -- player native position
     gui.text((Display.rightScreen + 200)*2, 10, "xPhysical: " .. PlayerData.xPhysical)
     gui.text((Display.rightScreen + 200)*2, 30, "xCam: " .. PlayerData.xCam)
     gui.text((Display.rightScreen + 200)*2, 50, "zPhysical: " .. PlayerData.zPhysical)
     gui.text((Display.rightScreen + 200)*2, 70, "zCam: " .. PlayerData.zCam)
+    
+    -- chunk native position
+    gui.text((Display.rightScreen + 200)*2, 90, "chunkOffsetX: " .. ChunkData.chunkOffsetX)
+    gui.text((Display.rightScreen + 200)*2, 110, "chunkOffsetZ: " .. ChunkData.chunkOffsetZ)
+
+    gui.text((Display.rightScreen + 200)*2, 130, "chunkData: 0x" .. Utility:format(ChunkData.startChunkData, 7))
 end
 
 function Movement:teleportXZ(xDiff,zDiff) -- not changing player height
