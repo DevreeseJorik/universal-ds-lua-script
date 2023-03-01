@@ -1,17 +1,38 @@
 Memory = {}
 
-Memory.read_u32_be = memory.read_u32_be
-Memory.read_u32_le = memory.read_u32_le
-Memory.read_s32_be = memory.read_s32_be
-Memory.read_s32_le = memory.read_s32_le
-Memory.read_u16_be = memory.read_u16_be
-Memory.read_u16_le = memory.read_u16_le
-Memory.read_s16_be = memory.read_s16_be
-Memory.read_s16_le = memory.read_s16_le
-Memory.read_u8 = memory.read_u8
-Memory.read_s8 = memory.read_s8
-Memory.read_bytes_as_array = memory.read_bytes_as_array
-Memory.read_bytes_as_dict = memory.read_bytes_as_dict
+-- Memory reads outside the range will cause performance problems, 
+-- so in such cases, no reads are performed and 0 is returned.
+local function to_checked_read(func, size)
+    return function(addr, dom)
+        if addr < 0 or addr + size > 0x100000000 then
+            return 0
+        end
+        return func(addr, dom)
+    end
+end
+
+Memory.read_u32_be = to_checked_read(memory.read_u32_be, 4)
+Memory.read_u32_le = to_checked_read(memory.read_u32_le, 4)
+Memory.read_s32_be = to_checked_read(memory.read_s32_be, 4)
+Memory.read_s32_le = to_checked_read(memory.read_s32_le, 4)
+Memory.read_u16_be = to_checked_read(memory.read_u16_be, 2)
+Memory.read_u16_le = to_checked_read(memory.read_u16_le, 2)
+Memory.read_s16_be = to_checked_read(memory.read_s16_be, 2)
+Memory.read_s16_le = to_checked_read(memory.read_s16_le, 2)
+Memory.read_u8 = to_checked_read(memory.read_u8, 1)
+Memory.read_s8 = to_checked_read(memory.read_s8, 1)
+Memory.read_bytes_as_array = function(addr, length, dom)
+    if addr < 0 or addr + length > 0x100000000 then
+        return {}
+    end
+    return memory.read_bytes_as_array(addr, length, dom)
+end
+Memory.read_bytes_as_dict = function(addr, length, dom)
+    if addr < 0 or addr + length > 0x100000000 then
+        return {}
+    end
+    return memory.read_bytes_as_dict(addr, length, dom)
+end
 
 function Memory:read_8(addr,dom,signed)
     if signed then return self:read_s8(addr,dom) end
