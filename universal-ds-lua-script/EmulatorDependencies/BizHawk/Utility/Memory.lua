@@ -1,17 +1,70 @@
 Memory = {}
 
-Memory.read_u32_be = memory.read_u32_be
-Memory.read_u32_le = memory.read_u32_le
-Memory.read_s32_be = memory.read_s32_be
-Memory.read_s32_le = memory.read_s32_le
-Memory.read_u16_be = memory.read_u16_be
-Memory.read_u16_le = memory.read_u16_le
-Memory.read_s16_be = memory.read_s16_be
-Memory.read_s16_le = memory.read_s16_le
-Memory.read_u8 = memory.read_u8
-Memory.read_s8 = memory.read_s8
-Memory.read_bytes_as_array = memory.read_bytes_as_array
-Memory.read_bytes_as_dict = memory.read_bytes_as_dict
+-- Memory reads outside the range will cause performance problems, 
+-- so in such cases, no reads are performed and 0 is returned.
+function Memory.read_u32_be(addr, dom)
+    if (addr < 0 or addr > 0xFFFFFFFC) then return 0 end
+    return memory.read_u32_be(addr, dom)
+end
+
+function Memory.read_u32_le(addr, dom)
+    if (addr < 0 or addr > 0xFFFFFFFC) then return 0 end
+    return memory.read_u32_le(addr, dom)
+end
+
+function Memory.read_s32_be(addr, dom)
+    if (addr < 0 or addr > 0xFFFFFFFC) then return 0 end
+    return memory.read_s32_be(addr, dom)
+end
+
+function Memory.read_s32_le(addr, dom)
+    if (addr < 0 or addr > 0xFFFFFFFC) then return 0 end
+    return memory.read_s32_le(addr, dom)
+end
+
+function Memory.read_u16_be(addr, dom)
+    if (addr < 0 or addr > 0xFFFFFFFE) then return 0 end
+    return memory.read_u16_be(addr, dom)
+end
+
+function Memory.read_u16_le(addr, dom)
+    if (addr < 0 or addr > 0xFFFFFFFE) then return 0 end
+    return memory.read_u16_le(addr, dom)
+end
+
+function Memory.read_s16_be(addr, dom)
+    if (addr < 0 or addr > 0xFFFFFFFE) then return 0 end
+    return memory.read_s16_be(addr, dom)
+end
+
+function Memory.read_s16_le(addr, dom)
+    if (addr < 0 or addr > 0xFFFFFFFE) then return 0 end
+    return memory.read_s16_le(addr, dom)
+end
+
+function Memory.read_u8(addr, dom)
+    if (addr < 0 or addr > 0xFFFFFFFF) then return 0 end
+    return memory.read_u8(addr, dom)
+end
+
+function Memory.read_s8(addr, dom)
+    if (addr < 0 or addr > 0xFFFFFFFF) then return 0 end
+    return memory.read_s8(addr, dom)
+end
+
+function Memory.read_bytes_as_array(addr, length, dom)
+    if (addr < 0 or addr + length > 0x100000000) then
+        return {}
+    end
+    return memory.read_bytes_as_array(addr, length, dom)
+end
+
+function Memory.read_bytes_as_dict(addr, length, dom)
+    if (addr < 0 or addr + length > 0x100000000) then
+        return {}
+    end
+    return memory.read_bytes_as_dict(addr, length, dom)
+end
 
 function Memory:read_8(addr,dom,signed)
     if signed then return self:read_s8(addr,dom) end
@@ -61,46 +114,47 @@ function Memory:readascii(addr,length)
 end 
 
 function Memory:write_u8(addr, val)
-    if (addr < 0x2000000) then return end
+    if (addr < 0x2000000 or addr > 0x2FFFFFF) then return end
     mainmemory.writebyte(addr-0x2000000, val)
 end
 
 function Memory:write_u16_be(addr, val)
-    if (addr < 0x2000000) then return end
+    if (addr < 0x2000000 or addr > 0x2FFFFFE) then return end
     mainmemory.write_u16_be(addr-0x2000000, val)
 end
 
 function Memory:write_u16_le(addr, val)
-    if (addr < 0x2000000) then return end
+    if (addr < 0x2000000 or addr > 0x2FFFFFE) then return end
     mainmemory.write_u16_le(addr-0x2000000, val)
 end
 
 function Memory:write_s16_le(addr, val)
-    if (addr < 0x2000000) then return end
+    if (addr < 0x2000000 or addr > 0x2FFFFFE) then return end
     mainmemory.write_s16_le(addr-0x2000000, val)
 end
 
 function Memory:write_u32_be(addr, val)
-    if (addr < 0x2000000) then return end
+    if (addr < 0x2000000 or addr > 0x2FFFFFC) then return end
     mainmemory.write_u32_be(addr-0x2000000, val)
 end
 
 function Memory:write_u32_le(addr, val)
-    if (addr < 0x2000000) then return end
+    if (addr < 0x2000000 or addr > 0x2FFFFFC) then return end
     mainmemory.write_u32_le(addr-0x2000000, val)
 end
 
 function Memory:write_s32_le(addr, val)
-    if (addr < 0x2000000) then return end
+    if (addr < 0x2000000 or addr > 0x2FFFFFC) then return end
     mainmemory.write_s32_le(addr-0x2000000, val)
 end
 
 function Memory:write_bytes_as_array(addr, val)
-    if (addr < 0x2000000) then return end
+    if (addr < 0x2000000 or addr + #val > 0x3000000) then return end
     mainmemory.write_bytes_as_array(addr-0x2000000, val)
 end
 
-function Memory:getByteRange_be(table,index, size)
+function Memory:getByteRange_be(table, index, size)
+    if (index + size > #table) then return 0 end
     local shift = (size - 1) * 8
     local value = 0
     for i = index, index + size - 1 do
@@ -111,6 +165,7 @@ function Memory:getByteRange_be(table,index, size)
 end
 
 function Memory:getByteRange(table, index, size)
+    if (index + size > #table) then return 0 end
     local shift = 0
     local value = 0
     for i = index, index + size - 1 do
